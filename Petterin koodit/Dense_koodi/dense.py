@@ -4,7 +4,7 @@ import numpy as np
 """
 Petteri Karjalainen OAMK 2024
 
-Calculating dense function from keras without keras library.
+Calculating dense function from keras without keras library usage.
 output is: output = activation(dot(input, kernel) + bias) 
 activation function is relu
 """
@@ -23,9 +23,11 @@ class dense:
     outputarray = np.empty(128, dtype=np.double)
     
 inputdata= np.empty(128, dtype=np.double) #Empty numpy array for test
-kerneldata = 200
 
+test_data = 200
+kernel_data = 200
+bias_data = 20
 #inputneurons[0:2] = 20 #How to edit neurons data
 #print(inputneurons) #Relu function test print
 
-print(dense.relu_function((dense.dot_function(inputdata, kernel) + bias)))
+print(dense.relu_function((dense.dot_function(test_data, kernel_data) + bias_data)))
