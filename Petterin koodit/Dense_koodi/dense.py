@@ -6,7 +6,14 @@ Petteri Karjalainen OAMK 2024
 
 Calculating dense function from keras without keras library usage.
 output is: output = activation(dot(input, kernel) + bias) 
+activation is voluntary of usage if command is used
+
 activation function is relu
+Dot is dot product calculation
+Input is input data
+Kernel is weight matrix data
+Bias is bias data
+
 """
 
 
@@ -27,4 +34,5 @@ bias_data = 20.2 #Bias data tells how far neuron is from right
 Command is:
 output = activation(dot(input, kernel) + bias)
 """
+
 print(dense.relu_function((dense.dot_function(input_data, kernel_data) + bias_data)))
