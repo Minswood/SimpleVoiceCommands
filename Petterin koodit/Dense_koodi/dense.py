@@ -9,25 +9,22 @@ output is: output = activation(dot(input, kernel) + bias)
 activation function is relu
 """
 
-Batch_size = 2 #Input batch size
-Input_dim = 20 #Input dim
 
-class dense:
+class dense: #Dense function class
 
-    def relu_function(x): #Relu function in python it is 0.0 or higher
+    def relu_function(x): #Relu function in python it is 0.0 or lower
         return max(0.0, x)
     
-    def dot_function(a, b): #Calculating dot function 
-        return np.dot(a,b)
-    
-    outputarray = np.empty(128, dtype=np.double)
-    
-inputdata= np.empty(128, dtype=np.double) #Empty numpy array for test
+    def dot_function(a, b): #Calculating dot function
+        return a@b 
+        
+#Test input data
+input_data = np.arange(128, dtype=np.uint8) #Input data
+kernel_data = np.arange(128, dtype=np.uint8) #Kernel data so called weights matrix
+bias_data = 20.2 #Bias data tells how far neuron is from right
 
-test_data = 200
-kernel_data = 200
-bias_data = 20
-#inputneurons[0:2] = 20 #How to edit neurons data
-#print(inputneurons) #Relu function test print
-
-print(dense.relu_function((dense.dot_function(test_data, kernel_data) + bias_data)))
+"""
+Command is:
+output = activation(dot(input, kernel) + bias)
+"""
+print(dense.relu_function((dense.dot_function(input_data, kernel_data) + bias_data)))
