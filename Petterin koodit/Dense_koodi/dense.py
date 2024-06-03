@@ -1,4 +1,5 @@
-import numpy as np
+import numpy as np #Used for numpy
+import random #Used for random generation
 
 
 """
@@ -19,20 +20,35 @@ Bias is bias data
 
 class dense: #Dense function class
 
-    def relu_function(x): #Relu function in python it is 0.0 or lower
+    def relu_activation(x): #Relu function in python it is 0.0 or lower
         return max(0.0, x)
     
     def dot_function(a, b): #Calculating dot function
         return a@b 
+
+    def random_value(): #Random float generation
+        return np.random.uniform(low=0.0, high=1.0)
         
 #Test input data
-input_data = np.arange(128, dtype=np.uint8) #Input data
-kernel_data = np.arange(128, dtype=np.uint8) #Kernel data so called weights matrix
+input_data = np.arange(start=0, stop=128, step=1, dtype=np.float16) #Input data
+kernel_data = np.arange(start=0, stop=128, step=1, dtype=np.float16) #Kernel data so called weights matrix
 bias_data = 20.2 #Bias data tells how far neuron is from right
+
+
+#Generate random values for begining test
+for x in range(0,128,1):
+    input_data[x] = dense.random_value()
+    
+for x in range(0,128,1):
+    kernel_data[x] = dense.random_value()
+
+
+print("Kernel data: ", kernel_data)
+print("Input data: ", input_data)
 
 """
 Command is:
 output = activation(dot(input, kernel) + bias)
 """
 
-print(dense.relu_function((dense.dot_function(input_data, kernel_data) + bias_data)))
+print(dense.relu_activation((dense.dot_function(input_data, kernel_data) + bias_data)))
