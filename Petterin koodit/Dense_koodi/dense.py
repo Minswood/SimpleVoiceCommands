@@ -29,26 +29,50 @@ class dense: #Dense function class
     def random_value(): #Random float generation
         return np.random.uniform(low=0.0, high=1.0)
         
-#Test input data
-input_data = np.arange(start=0, stop=128, step=1, dtype=np.float16) #Input data
-kernel_data = np.arange(start=0, stop=128, step=1, dtype=np.float16) #Kernel data so called weights matrix
-bias_data = 20.2 #Bias data tells how far neuron is from right
+#First dense layer data
+input_data_1 = np.arange(start=0, stop=128, step=1, dtype=np.float16) #Input data
+kernel_data_1 = np.arange(start=0, stop=128, step=1, dtype=np.float16) #Kernel data so called weights matrix
+bias_data_1 = 20.2 #Bias data tells how far neuron is from right
 
 
-#Generate random values for begining test
+#Generate random values for begining test    
 for x in range(0,128,1):
-    input_data[x] = dense.random_value()
-    
-for x in range(0,128,1):
-    kernel_data[x] = dense.random_value()
+    kernel_data_1[x] = dense.random_value()
+    input_data_1[x] = dense.random_value()
 
 
-print("Kernel data: ", kernel_data)
-print("Input data: ", input_data)
+print("Kernel data: ", kernel_data_1)
+print("Input data: ", input_data_1)
 
 """
 Command is:
 output = activation(dot(input, kernel) + bias)
 """
+#First dense layer
+print("dense first layer is",dense.relu_activation((dense.dot_function(input_data_1, kernel_data_1) + bias_data_1)))
 
-print(dense.relu_activation((dense.dot_function(input_data, kernel_data) + bias_data)))
+
+#Second dense layer data
+
+#First dense layer data
+input_data_2 = np.arange(start=0, stop=128, step=1, dtype=np.float16) #Input data
+kernel_data_2 = np.arange(start=0, stop=128, step=1, dtype=np.float16) #Kernel data so called weights matrix
+bias_data_2 = 20.2 #Bias data tells how far neuron is from right
+
+
+#Generate random values for begining test    
+for x in range(0,128,1):
+    kernel_data_2[x] = dense.random_value()
+    input_data_2[x] = dense.random_value()
+
+
+print("Kernel data2: ", kernel_data_2)
+print("Input data2: ", input_data_2)
+
+"""
+Command 2 is:
+output = dot(input, kernel) + bias
+"""
+
+
+print("dense second layer is", (dense.dot_function(input_data_2, kernel_data_2) + bias_data_2))
