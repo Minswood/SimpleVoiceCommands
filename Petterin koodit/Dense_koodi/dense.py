@@ -53,15 +53,13 @@ print("dense first layer is",dense.relu_activation((dense.dot_function(input_dat
 
 
 #Second dense layer data
-
-#First dense layer data
-input_data_2 = np.arange(start=0, stop=128, step=1, dtype=np.float16) #Input data
-kernel_data_2 = np.arange(start=0, stop=128, step=1, dtype=np.float16) #Kernel data so called weights matrix
+input_data_2 = np.arange(start=0, stop=64, step=1, dtype=np.float16) #Input data
+kernel_data_2 = np.arange(start=0, stop=64, step=1, dtype=np.float16) #Kernel data so called weights matrix
 bias_data_2 = 20.2 #Bias data tells how far neuron is from right
 
 
 #Generate random values for begining test    
-for x in range(0,128,1):
+for x in range(0,64,1):
     kernel_data_2[x] = dense.random_value()
     input_data_2[x] = dense.random_value()
 
@@ -70,9 +68,9 @@ print("Kernel data2: ", kernel_data_2)
 print("Input data2: ", input_data_2)
 
 """
-Command 2 is:
+second dence command 2 is:
 output = dot(input, kernel) + bias
 """
 
-
+#Second dense layer
 print("dense second layer is", (dense.dot_function(input_data_2, kernel_data_2) + bias_data_2))
