@@ -40,5 +40,11 @@ picture = np.array([[22,33,90],
                     [54,7,50],
                     [77,56,13]])
 newPicture = Normalize(picture)
-print('Result:\n',newPicture)
 
+
+picture2 = np.array([[47,33,66],
+                    [54,20,50],
+                    [61,56,13]])
+newPicture2 = Normalize(picture2)
+print('Result:\n',newPicture)
+print('Result:\n',newPicture2)
