@@ -5,34 +5,35 @@ import random #Used for random generation
 """
 Petteri Karjalainen OAMK 2024
 
-Calculating dense function from keras without keras library usage.
+Calculating dense function from keras without library usage.
 output is: output = activation(dot(input, kernel) + bias) 
 activation is voluntary of usage if command is used
 
-activation function is relu
+relu activation function is rectified linear unit
 Dot is dot product calculation
 Input is input data
 Kernel is weight matrix data
 Bias is bias data
+random value is between 0-1 generated for testing
 
 """
 
 
 class dense: #Dense function class
 
-    def relu_activation(x): #Relu function in python it is 0.0 or lower
+    def relu_activation(x): #Relu activation in python
         return max(0.0, x)
     
     def dot_function(a, b): #Calculating dot function
         return a@b 
 
-    def random_value(): #Random float generation
+    def random_value(): #Random float generation for testing purpose
         return np.random.uniform(low=0.0, high=1.0)
         
 #First dense layer data
 input_data_1 = np.arange(start=0, stop=128, step=1, dtype=np.float16) #Input data
 kernel_data_1 = np.arange(start=0, stop=128, step=1, dtype=np.float16) #Kernel data so called weights matrix
-bias_data_1 = 20.2 #Bias data tells how far neuron is from right
+bias_data_1 = dense.random_value() #Bias data tells how far neuron is from right
 
 
 #Generate random values for begining test    
@@ -55,7 +56,7 @@ print("dense first layer is",dense.relu_activation((dense.dot_function(input_dat
 #Second dense layer data
 input_data_2 = np.arange(start=0, stop=64, step=1, dtype=np.float16) #Input data
 kernel_data_2 = np.arange(start=0, stop=64, step=1, dtype=np.float16) #Kernel data so called weights matrix
-bias_data_2 = 20.2 #Bias data tells how far neuron is from right
+bias_data_2 = dense.random_value() #Bias data tells how far neuron is from right
 
 
 #Generate random values for begining test    
@@ -68,7 +69,7 @@ print("Kernel data2: ", kernel_data_2)
 print("Input data2: ", input_data_2)
 
 """
-second dence command 2 is:
+second dense command 2 is:
 output = dot(input, kernel) + bias
 """
 
