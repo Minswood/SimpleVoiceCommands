@@ -1,4 +1,4 @@
-import numpy as np #Used for numpy
+import numpy as np #Used for random and arange commands
 
 
 """
@@ -28,10 +28,14 @@ class dense: #Dense function class
 
     def random_value(): #Random float generation for testing purpose
         return np.random.uniform(low=0.0, high=1.0)
+    
+    def arrange_data(size_stop):
+        return np.arange(start=0, stop=size_stop, step=1, dtype=np.float16)
         
 #First dense layer data
-input_data_1 = np.arange(start=0, stop=128, step=1, dtype=np.float16) #Input data
-kernel_data_1 = np.arange(start=0, stop=128, step=1, dtype=np.float16) #Kernel data so called weights matrix
+
+input_data_1 = dense.arrange_data(128) #Input data
+kernel_data_1 = dense.arrange_data(128) #Kernel data so called weights matrix
 bias_data_1 = dense.random_value() #Bias data tells how far neuron is from right
 
 
@@ -53,8 +57,9 @@ print("dense first layer is",dense.relu_activation((dense.dot_function(input_dat
 
 
 #Second dense layer data
-input_data_2 = np.arange(start=0, stop=64, step=1, dtype=np.float16) #Input data
-kernel_data_2 = np.arange(start=0, stop=64, step=1, dtype=np.float16) #Kernel data so called weights matrix
+
+input_data_2 = dense.arrange_data(64) #Input data
+kernel_data_2 = dense.arrange_data(64) #Kernel data so called weights matrix
 bias_data_2 = dense.random_value() #Bias data tells how far neuron is from right
 
 
