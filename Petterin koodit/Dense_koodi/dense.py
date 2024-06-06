@@ -1,5 +1,4 @@
 import numpy as np #Used for numpy
-import random #Used for random generation
 
 
 """
@@ -9,7 +8,7 @@ Calculating dense function from keras without library usage.
 output is: output = activation(dot(input, kernel) + bias) 
 activation is voluntary of usage if command is used
 
-relu activation function is rectified linear unit
+relu activation function is called rectified linear unit
 Dot is dot product calculation
 Input is input data
 Kernel is weight matrix data
@@ -36,7 +35,7 @@ kernel_data_1 = np.arange(start=0, stop=128, step=1, dtype=np.float16) #Kernel d
 bias_data_1 = dense.random_value() #Bias data tells how far neuron is from right
 
 
-#Generate random values for begining test    
+#Generate random values for data    
 for x in range(0,128,1):
     kernel_data_1[x] = dense.random_value()
     input_data_1[x] = dense.random_value()
@@ -59,7 +58,7 @@ kernel_data_2 = np.arange(start=0, stop=64, step=1, dtype=np.float16) #Kernel da
 bias_data_2 = dense.random_value() #Bias data tells how far neuron is from right
 
 
-#Generate random values for begining test    
+#Generate random values for data    
 for x in range(0,64,1):
     kernel_data_2[x] = dense.random_value()
     input_data_2[x] = dense.random_value()
@@ -69,7 +68,7 @@ print("Kernel data2: ", kernel_data_2)
 print("Input data2: ", input_data_2)
 
 """
-second dense command 2 is:
+second dense command is:
 output = dot(input, kernel) + bias
 """
 
