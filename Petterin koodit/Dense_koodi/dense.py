@@ -15,6 +15,7 @@ Kernel is weight matrix data
 Bias is bias data
 random value is between 0-1 generated for testing
 
+Change random_values and arrange_data for real functions.
 """
 
 
@@ -29,7 +30,7 @@ class dense: #Dense function class
     def random_value(): #Random float generation for testing purpose
         return np.random.uniform(low=0.0, high=1.0)
     
-    def arrange_data(size_stop):
+    def arrange_data(size_stop): #Arange initilaizing shape
         return np.arange(start=0, stop=size_stop, step=1, dtype=np.float16)
         
 #First dense layer data
@@ -73,7 +74,7 @@ print("Kernel data2: ", kernel_data_2)
 print("Input data2: ", input_data_2)
 
 """
-second dense command is:
+second dense for size labels command is:
 output = dot(input, kernel) + bias
 """
 
