@@ -142,18 +142,18 @@ def main():
     spectrogram = get_spectrogram(waveform)
     tf_spectrogram = tf_get_spectrogram(waveform)
 
-    fig, axes = plt.subplots(2, figsize=(12, 8))
+    fig, axes = plt.subplots(3, figsize=(12, 8))
     timescale = np.arange(waveform.shape[0])
-    # axes[0].plot(timescale, waveform.numpy())
-    # axes[0].set_title('Waveform')
+    axes[0].plot(timescale, waveform)
+    axes[0].set_title('Waveform')
     axes[0].set_xlim([0, 16000])
 
-    plot_spectrogram(spectrogram, axes[0])
-    axes[0].set_title('Own Spectrogram   ' + label)
+    plot_spectrogram(spectrogram, axes[1])
+    axes[1].set_title('Own Spectrogram')
     plt.suptitle(label.title())
 
-    plot_spectrogram(tf_spectrogram.numpy(), axes[1])
-    axes[1].set_title('TF Spectrogram')
+    plot_spectrogram(tf_spectrogram.numpy(), axes[2])
+    axes[2].set_title('TF Spectrogram')
     plt.suptitle(label.title())
     plt.show()
 
