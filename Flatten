@@ -37,3 +37,11 @@ if __name__ == '__main__':
     print(flatten_3d(list_3d))
     print(flatten_3d(list_4d))
     print(flatten_2d(list_test))
+
+"""
+OUTPUT
+[1, 2, 3, 4]
+[1, 2, 3, 4, 5, 6, 7, 8]
+[[1, 2], [3, 4], [5, 6], [7, 8]]
+[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+"""
