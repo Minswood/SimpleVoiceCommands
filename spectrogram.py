@@ -6,7 +6,6 @@ import glob as glob
 import random
 import scipy.fft
 
-
 # Get the audio file from given path
 # and convert it into numpy.float32 array
 def get_wav_file():
@@ -19,12 +18,12 @@ def get_wav_file():
 
     random_int = random.randint(0,55)
     filename = audio_files[random_int]
-    # filename = 'mini_speech_commands_sample/Yes/0ac15fe9_nohash_0.wav'
+    # filename = 'mini_speech_commands_sample/Stop/0b56bcfe_nohash_1.wav'
     print(filename)
     index = label_indices[random_int].astype(np.int64)
     label = label_names[index]
     print(label)
-    file = wave.open(audio_files[random_int], "rb")
+    file = wave.open(filename, "rb")
     samples = file.getnframes()
     audio = file.readframes(samples)
     # sampling frequency = how many data points per second
@@ -53,7 +52,6 @@ def pad_audio(audio):
     print("padded: ", audio_padded.shape)
     return audio_padded
 
-
 def plot_waveform(waveform, label):
     plt.figure(figsize=(16, 10))
     plt.plot(waveform)
@@ -62,21 +60,20 @@ def plot_waveform(waveform, label):
     plt.ylim([-1.1, 1.1])
     plt.show()
 
-def get_coefficient(samples, n): 
-    L = len(samples)
-    k = np.arange(0, len(samples), 1)
-    Xn = 0.0
-    for i in range(len(samples)):
-        Xn += (samples[i] * np.exp(1j * 2 * np.pi * k[i] * n / L)) 
+def dft(input_signal):
+    N = len(input_signal)
+    coefficients = [] # The different frequencies in input signal (samples)
+    # iterate through the possible frequencies up until Nyquist limit
+    for k in range(0, int(N/2) + 1, 1):
+        Xk = 0 # to store current frequency
+        #iterate through the samples in input_signal
+        for n in range(N):
+            # Extract amplitude and phase information for kth frequency
+            e = np.exp(-2j * np.pi * k * n / N)
+            Xk += input_signal[n] * ((1 - np.cos(2 * np.pi * n / N)) / 2) * e
+        coefficients.append(Xk)
+    return np.array(coefficients)
 
-    # Xn = np.sum(samples * np.exp(-2j * np.pi * k * n / L))
-    return Xn
-
-def get_dft(samples):
-    coefficients = []
-    for n in range(int(len(samples)/2)):
-        coefficients.append(get_coefficient(samples, n))
-    return coefficients
 
 # get spectrogam function
 def get_spectrogram(waveform, window_length=256, window_step=128):
@@ -89,7 +86,7 @@ def get_spectrogram(waveform, window_length=256, window_step=128):
         # If stepping will make the window exceed the input array, stop
         if(step + window_length <= len(waveform)):
             # coefficients = scipy.fft.fft(waveform[step:step + window_length])
-            coefficients = get_dft(waveform[step:step + window_length])
+            coefficients = dft(waveform[step:step + window_length])
             spectrogram.append(coefficients)
         # else:
         #     diff = len(waveform) - (step + window_length)
@@ -103,22 +100,22 @@ def get_spectrogram(waveform, window_length=256, window_step=128):
     spectrogram = np.array(spectrogram)
     spectrogram = np.abs(spectrogram)
     spectrogram = spectrogram[..., np.newaxis]
+    print(spectrogram)
     print(spectrogram.shape)
-    step = 0
     return spectrogram
 
 def tf_get_spectrogram(waveform):
   # Convert the waveform to a spectrogram via a STFT.
   print("tf waveform length ", len(waveform))
   spectrogram = tf.signal.stft(
-      waveform, frame_length=255, frame_step=128, window_fn=None)
+      waveform, frame_length=255, frame_step=128, )
   # Obtain the magnitude of the STFT.
   spectrogram = tf.abs(spectrogram)
   # Add a `channels` dimension, so that the spectrogram can be used
   # as image-like input data with convolution layers (which expect
   # shape (`batch_size`, `height`, `width`, `channels`).
   spectrogram = spectrogram[..., tf.newaxis]
-#   print(spectrogram.shape)
+  print(spectrogram)
   return spectrogram
 
 # Plotting function from Tenserflow Simple Audio tutorial
