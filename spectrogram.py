@@ -17,8 +17,8 @@ def get_wav_file():
          label_indices = np.append(label_indices, [i]*7)
 
     random_int = random.randint(0,55)
-    filename = audio_files[random_int]
-    # filename = 'mini_speech_commands_sample/Stop/0b56bcfe_nohash_1.wav'
+    # filename = audio_files[random_int]
+    filename = 'mini_speech_commands_sample/Down/00f0204f_nohash_0.wav'
     print(filename)
     index = label_indices[random_int].astype(np.int64)
     label = label_names[index]
@@ -63,14 +63,20 @@ def plot_waveform(waveform, label):
 def dft(input_signal):
     N = len(input_signal)
     coefficients = [] # The different frequencies in input signal (samples)
+    windowed = []
+    for i in range(0, N):
+        window = 0.5 - 0.5 * (np.cos((2 * np.pi * i) / N)) # Applying Hanning window to smooth out "spectral leakage" caused by discontinuities in the non-periodic signals
+        windowed.append(window)
+
     # iterate through the possible frequencies up until Nyquist limit
     for k in range(0, int(N/2) + 1, 1):
         Xk = 0 # to store current frequency
+        
         #iterate through the samples in input_signal
         for n in range(N):
             # Extract amplitude and phase information for kth frequency
             e = np.exp(-2j * np.pi * k * n / N)
-            Xk += input_signal[n] * ((1 - np.cos(2 * np.pi * n / N)) / 2) * e
+            Xk += input_signal[n] * windowed[n] * e
         coefficients.append(Xk)
     return np.array(coefficients)
 
@@ -100,7 +106,6 @@ def get_spectrogram(waveform, window_length=256, window_step=128):
     spectrogram = np.array(spectrogram)
     spectrogram = np.abs(spectrogram)
     spectrogram = spectrogram[..., np.newaxis]
-    print(spectrogram)
     print(spectrogram.shape)
     return spectrogram
 
@@ -115,7 +120,6 @@ def tf_get_spectrogram(waveform):
   # as image-like input data with convolution layers (which expect
   # shape (`batch_size`, `height`, `width`, `channels`).
   spectrogram = spectrogram[..., tf.newaxis]
-  print(spectrogram)
   return spectrogram
 
 # Plotting function from Tenserflow Simple Audio tutorial
