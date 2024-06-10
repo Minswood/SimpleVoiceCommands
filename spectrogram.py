@@ -17,8 +17,8 @@ def get_wav_file():
          label_indices = np.append(label_indices, [i]*7)
 
     random_int = random.randint(0,55)
-    # filename = audio_files[random_int]
-    filename = 'mini_speech_commands_sample/Down/00f0204f_nohash_0.wav'
+    filename = audio_files[random_int]
+    # filename = 'mini_speech_commands_sample/Down/00f0204f_nohash_0.wav'
     print(filename)
     index = label_indices[random_int].astype(np.int64)
     label = label_names[index]
@@ -28,7 +28,6 @@ def get_wav_file():
     audio = file.readframes(samples)
     # sampling frequency = how many data points per second
     # framerate = file.getframerate()
-    # print("framerate: %s", framerate)
 
     audio_np_int16 = np.frombuffer(audio, dtype=np.int16)
     audio_np_float32 = audio_np_int16.astype(np.float32)
@@ -62,6 +61,9 @@ def plot_waveform(waveform, label):
 
 def dft(input_signal):
     N = len(input_signal)
+    
+    L = int(N/2) + 1
+   
     coefficients = [] # The different frequencies in input signal (samples)
     windowed = []
     for i in range(0, N):
@@ -69,17 +71,15 @@ def dft(input_signal):
         windowed.append(window)
 
     # iterate through the possible frequencies up until Nyquist limit
-    for k in range(0, int(N/2) + 1, 1):
+    for k in range(L):
         Xk = 0 # to store current frequency
-        
         #iterate through the samples in input_signal
         for n in range(N):
             # Extract amplitude and phase information for kth frequency
-            e = np.exp(-2j * np.pi * k * n / N)
-            Xk += input_signal[n] * windowed[n] * e
+            e = np.exp(-2j * np.pi * k * n / N) # Euler's formula: Xn * (np.cos(2 * np.pi * k * n / N) + 1j * np.sin(2 * np.pi * k * n / N))
+            Xk += input_signal[n] * windowed[n] * e 
         coefficients.append(Xk)
     return np.array(coefficients)
-
 
 # get spectrogam function
 def get_spectrogram(waveform, window_length=256, window_step=128):
@@ -91,20 +91,11 @@ def get_spectrogram(waveform, window_length=256, window_step=128):
     for step in steps:
         # If stepping will make the window exceed the input array, stop
         if(step + window_length <= len(waveform)):
-            # coefficients = scipy.fft.fft(waveform[step:step + window_length])
             coefficients = dft(waveform[step:step + window_length])
             spectrogram.append(coefficients)
-        # else:
-        #     diff = len(waveform) - (step + window_length)
-        #     zeros = np.zeros(abs(diff))
-        #     wf_array = waveform[step:]
-        #     appended_array = np.append(wf_array, zeros)
-        #     print("length of appended array ", len(appended_array))
-        #     coefficients = get_dft(appended_array)
-        #     spectrogram.append(coefficients)
 
     spectrogram = np.array(spectrogram)
-    spectrogram = np.abs(spectrogram)
+    spectrogram = np.abs(spectrogram) # Get only magnitudes of the dft
     spectrogram = spectrogram[..., np.newaxis]
     print(spectrogram.shape)
     return spectrogram
