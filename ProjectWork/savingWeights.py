@@ -41,7 +41,7 @@ def filter_to_csv(layer_name, layer_filters):
 
 
 
-
+print(np.shape(conv1_biases),'AAND', np.shape(conv2_biases))
 print(np.shape(dense1_weights),'AND',np.shape(dense2_weights))
 
 np.savetxt('dense1Weights.csv',dense1_weights, delimiter=',')
@@ -51,5 +51,8 @@ np.savetxt('dense1Biases.csv',dense1_biases, delimiter=',')
 np.savetxt('dense2Weights.csv',dense2_weights, delimiter=',')
 np.savetxt('dense2Biases.csv',dense2_biases, delimiter=',')
 
-#filter_to_csv('conv1', conv1_filters)
-#filter_to_csv('conv2', conv2_filters)
+filter_to_csv('conv1', conv1_filters)
+filter_to_csv('conv2', conv2_filters)
+
+np.savetxt('conv1Biases.csv',conv1_biases, delimiter=',')
+np.savetxt('conv2Biases.csv',conv2_biases, delimiter=',')
