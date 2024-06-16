@@ -1,8 +1,5 @@
 import math
 import numpy as np
-import matplotlib.pyplot as plt
-import tensorflow as tf
-from spectrogram import get_wav_file, get_spectrogram, plot_spectrogram
 
 def bilinear_interpolation(arr, x, y):
     height, width = arr.shape
@@ -30,7 +27,7 @@ def bilinear_interpolation(arr, x, y):
 def resize(image_array, new_height, new_width):
     input_array = np.asarray(image_array)
     print(input_array.shape)
-    # input_array = input_array[:, :, 0]
+    input_array = input_array[:, :, 0]
     height = input_array.shape[0]
     width = input_array.shape[1]
     x_center = (width - 1) / 2
@@ -56,12 +53,13 @@ def resize(image_array, new_height, new_width):
     return output_array
     
 def main():
+    
     test_array = [[2.0, -3.1, 5.2, 0.33, 0.12, -2.09, 0.1, 0.3, 7.1, 2.0],
                   [3.2, 6.6, -7.1, 1.8, 0.45, 1.23, -0.9, -3.9, 4.2, 1.11],
                   [2.01, 9.2, 4.12, -0.3, 0.53, 6.12, 1.1, 2.6, -7.1, 8.55],
                   [-5.1, 0.3, 9.11, 0.87, 4.0, -2.34, 6.4, -0.2, 4.21, 3.71]]
     
-    resized_array = resize(test_array, 32, 32)
+    # resized_array = resize(test_array, 32, 32)
 
 
 if __name__=="__main__":
