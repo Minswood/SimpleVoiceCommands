@@ -51,16 +51,3 @@ def resize(image_array, new_height, new_width):
     output_array = output_array[..., np.newaxis]
     print(output_array.shape)
     return output_array
-    
-def main():
-    
-    test_array = [[2.0, -3.1, 5.2, 0.33, 0.12, -2.09, 0.1, 0.3, 7.1, 2.0],
-                  [3.2, 6.6, -7.1, 1.8, 0.45, 1.23, -0.9, -3.9, 4.2, 1.11],
-                  [2.01, 9.2, 4.12, -0.3, 0.53, 6.12, 1.1, 2.6, -7.1, 8.55],
-                  [-5.1, 0.3, 9.11, 0.87, 4.0, -2.34, 6.4, -0.2, 4.21, 3.71]]
-    
-    # resized_array = resize(test_array, 32, 32)
-
-
-if __name__=="__main__":
-    main()
