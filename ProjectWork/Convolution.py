@@ -10,7 +10,7 @@ def applySingleFilter(input, filter):
             
 '''
 
-# The Convolution layer used ReLu activation, which means all values below 0 are changed to 0. 
+# The Convolution layer uses ReLu activation, which means all values below 0 are changed to 0. 
 def ReLu(filtered):
     output = filtered
     for row in range(output.shape[0]):
@@ -27,32 +27,47 @@ def applySingleFilter(input, filter):
     output = np.zeros(shape=np.shape(input))
     for rows in (range(len(input)-2)):
         for columns in (range(len(input)-2)):
+            element = 0
+            for f_row in range(len(filter)):
+                for f_column in range(len(filter)):
+                    element += filter[f_row,f_column] * input[(rows+f_row),(columns+f_column)]
+            output[rows,columns] = element
+                    
             
-            output[rows,columns] = (input[rows,columns]*filter[0,0])+(input[rows,columns+1]*filter[0,1])+(input[rows,columns+2]*filter[0,2])+(input[rows+1,columns]*filter[1,0])+(input[rows+1,columns+1]*filter[1,1])+(input[rows+1,columns+2]*filter[1,2])+(input[rows+2,columns]*filter[2,0])+(input[rows+2,columns+1]*filter[2,1])+(input[rows+2,columns+2]*filter[2,2])
     return(output)
 
 
 
 # This function applies all saved filters on a single image, and saves their output. It calls the applySingleFilter function.
-def applyAllFilters(image, pathToFilters):
-    filter = []
-    FilterFile = f'c:\CodeStuff\SummerProject2024\ProjectWork\SimpleVoiceCommands\\filters_conv1\channel1_filter1'
-    with open(FilterFile,newline='')as csvfile:
-        csvReader = csv.reader(csvfile, delimiter=',')
-        for row in csvReader:
-            filter.append(row)
-            print('Filter row',row)
+def applyAllFilters(image):
+    counter=1
+    
+    while 1:
+        try:
+            filter = np.array([[]])
+            FilterFile = f'./filters_conv1/channel1_filter{counter}.csv'
+            with open(FilterFile,newline='')as csvfile:
+                csvReader = csv.reader(csvfile, delimiter=',')
+                for row in csvReader:
+                    filter = np.append(filter,row)
+                filter = filter.reshape(3,3)
+                print('Filter',filter)
+            applySingleFilter(image, filter)
+            counter += 1
+            np.savetxt(f'filterOutput{counter}.')
+        except:
+            print('Exit filter loop at counter:',counter)
+            break
+            
 
 
 
     return
 
 
-#C:\CodeStuff\SummerProject2024\ProjectWork\SimpleVoiceCommands\filters_conv1
 
 
-
-
+#output[rows,columns] = (input[rows,columns]*filter[0,0])+(input[rows,columns+1]*filter[0,1])+(input[rows,columns+2]*filter[0,2])+(input[rows+1,columns]*filter[1,0])+(input[rows+1,columns+1]*filter[1,1])+(input[rows+1,columns+2]*filter[1,2])+(input[rows+2,columns]*filter[2,0])+(input[rows+2,columns+1]*filter[2,1])+(input[rows+2,columns+2]*filter[2,2])
 
 
 
@@ -62,7 +77,7 @@ filter = np.array([[-1,-1,-1],
                    [1,1,1]])  
 picture = np.random.rand(64,64)
 
-applyAllFilters(picture,'ff')
+applyAllFilters(picture)
 
 '''
 filter = np.array([[-1,-1,-1],

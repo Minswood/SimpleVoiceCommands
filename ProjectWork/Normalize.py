@@ -10,15 +10,13 @@ Mean is the  mean of the elements in batch and var is their variance
 
 
 def NormalizeSingle(input):
+    
     #Defining variables and arrays. 
     output = np.zeros(shape=(np.shape(input)))
     varTable = np.zeros(shape=(np.shape(input)))
     print('NormalizeSingle Input Shape:\n',input.shape)
     shape = input.shape[0]*input.shape[1]
-    #print('input:', input)
     mean = 0
-    biggest = 0
-    smallest = 100
     var=0
     
     #Counting the mean of the input array
@@ -31,9 +29,7 @@ def NormalizeSingle(input):
     #Counting the variance of the input array
     for row in range(len(input)):
         for column in range(len(input[row])):
-            varTable[row, column] = (input[row,column]-mean)**2
-            #print(('Mistake:',input[row,column]-mean))
-    #print('varTable:',varTable)
+            varTable[row, column] = (input[row,column]-mean)**2        
     for x in varTable:
         for y in x:
             var +=y
@@ -41,7 +37,6 @@ def NormalizeSingle(input):
     print('NormalizeSingle Input Variance:\n',var)
    
     #The normalization for each element of input array and putting them into output array
-    
     for row in range(len(input)):
         for column in range(len(input[row])):
             output[row,column] = (input[row,column]-mean)/(var**0.5)
@@ -50,10 +45,9 @@ def NormalizeSingle(input):
 
 
 
-
+# Calling the NormalizeSingle function for each batch in a layer.
 def NormalizeLayer(layer):
     output = np.zeros(shape=np.shape(layer))
-    
     for batch in range(len(layer)):
         #print('Workign Batch:\n',batch)
         output[batch]= NormalizeSingle(layer[batch])
@@ -64,7 +58,7 @@ def NormalizeLayer(layer):
 
 
 
-#Everyting beyond this points is for testing purposes
+#Everyting beyond this points is for testing purposes and will be removed at a later date.
 '''
 test_layer = np.random.rand(64,32,32)
 new_layer = NormalizeLayer(test_layer)
