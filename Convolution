@@ -20,7 +20,7 @@ def relu(img: np.array) -> np.array:
     return img
     
 def convolution(image, kernel, padding = 0, strides=1):
-    kernel_size = len(kernel)
+    #kernel_size = len(kernel)
     #Flip kernel 180 to cross-correlate
     kernel = np.flipud(np.fliplr(kernel))
 
