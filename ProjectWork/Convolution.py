@@ -1,5 +1,6 @@
 import numpy as np
 import csv
+import os
 
 '''
 def applySingleFilter(input, filter):
@@ -39,31 +40,46 @@ def applySingleFilter(input, filter):
 
 
 # This function applies all saved filters on a single image, and saves their output. It calls the applySingleFilter function.
+
 def applyAllFilters(image):
     counter=1
+    directory = f'Conv1_Output'
+    if not os.path.exists(directory):
+        os.makedirs(directory)
     
     while 1:
         try:
             filter = np.array([[]])
             FilterFile = f'./filters_conv1/channel1_filter{counter}.csv'
             with open(FilterFile,newline='')as csvfile:
-                csvReader = csv.reader(csvfile, delimiter=',')
+                csvReader = csv.reader(csvfile, delimiter=',',quoting=csv.QUOTE_NONNUMERIC)
                 for row in csvReader:
                     filter = np.append(filter,row)
                 filter = filter.reshape(3,3)
                 print('Filter',filter)
-            applySingleFilter(image, filter)
+            new_image = applySingleFilter(image, filter)
+            np.savetxt(f'{directory}/filterOutput{counter}.csv',new_image)
             counter += 1
-            np.savetxt(f'filterOutput{counter}.')
         except:
             print('Exit filter loop at counter:',counter)
             break
-            
+'''
+def applyAllFilters(image):
+        counter = 1
+        filter = np.array([[]])
+        FilterFile = f'./filters_conv1/channel1_filter{counter}.csv'
+        with open(FilterFile,newline='')as csvfile:
+            csvReader = csv.reader(csvfile, delimiter=',', quoting=csv.QUOTE_NONNUMERIC)
+            for row in csvReader:
+                filter = np.append(filter,row)
+            filter = filter.reshape(3,3)
+            print('Filter',filter)
+        applySingleFilter(image, filter)
+        counter += 1
+        
 
-
-
-    return
-
+        return
+'''
 
 
 
@@ -74,10 +90,11 @@ def applyAllFilters(image):
 
 filter = np.array([[-1,-1,-1],
                    [0,0,0],
-                   [1,1,1]])  
+                   [1,0.001,1]])  
 picture = np.random.rand(64,64)
 
 applyAllFilters(picture)
+
 
 '''
 filter = np.array([[-1,-1,-1],

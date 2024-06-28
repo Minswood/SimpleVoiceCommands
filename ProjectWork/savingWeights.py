@@ -11,7 +11,7 @@ the_model.summary()#Model information
 #Saving all the weights and biases of required layers
 conv1_filters = the_model.layers[2].get_weights()[0]
 conv2_filters = the_model.layers[3].get_weights()[0]
-conv1_biases = the_model.layers[3].get_weights()[1]
+conv1_biases = the_model.layers[2].get_weights()[1]
 conv2_biases = the_model.layers[3].get_weights()[1]
 
 dense1_weights = the_model.layers[7].get_weights()[0]
@@ -40,7 +40,7 @@ def filter_to_csv(layer_name, layer_filters):
             
 
 
-'''
+
 print(np.shape(conv1_biases),'AAND', np.shape(conv2_biases))
 print(np.shape(dense1_weights),'AND',np.shape(dense2_weights))
 
@@ -56,4 +56,3 @@ filter_to_csv('conv2', conv2_filters)
 
 np.savetxt('conv1Biases.csv',conv1_biases, delimiter=',')
 np.savetxt('conv2Biases.csv',conv2_biases, delimiter=',')
-'''
