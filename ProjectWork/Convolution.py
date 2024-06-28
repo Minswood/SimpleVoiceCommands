@@ -17,15 +17,14 @@ def ReLu(filtered):
     for row in range(output.shape[0]):
         for column in range(output.shape[1]):
             if output[row,column] < 0:
-                print('Column before',output[row,column])
                 output[row,column]=0
-                print('Column after', output[row,column])
                 
     return output
 
+
 # This function iterates a single filter over an input image. It will be used in another function that calls it on multiple filters
 def applySingleFilter(input, filter):
-    output = np.zeros(shape=np.shape(input))
+    output = np.zeros(shape=(np.shape(input)[0]-2,np.shape(input)[0]-2))
     for rows in (range(len(input)-2)):
         for columns in (range(len(input)-2)):
             element = 0
@@ -42,15 +41,31 @@ def applySingleFilter(input, filter):
 # This function applies all saved filters on a single image, and saves their output. It calls the applySingleFilter function.
 
 def applyAllFilters(image):
-    counter=1
-    directory = f'Conv1_Output'
-    if not os.path.exists(directory):
-        os.makedirs(directory)
+    counter = 1
+    output_directory = f'Conv1_Output'
     
+    #Saving the biases in an array for ease of use
+    biases = []
+    with open('./conv1Biases.csv',newline='')as csvfile:
+                csvReader = csv.reader(csvfile, delimiter=',',quoting=csv.QUOTE_NONNUMERIC)
+                for row in csvReader:
+                    biases.append(row)
+ 
+ 
+ 
+ #Creating a direcotyr for filter output if one does not exist
+    if not os.path.exists(output_directory):
+        os.makedirs(output_directory)
+    
+
+    
+    
+    # The combination of while and try-except is used, so that the function goes through all filter files one at a time, and stops when done
     while 1:
         try:
             filter = np.array([[]])
             FilterFile = f'./filters_conv1/channel1_filter{counter}.csv'
+           # Appending the rows in one filter to the empty filter array and then applying it on the image using the applySingleFilter function
             with open(FilterFile,newline='')as csvfile:
                 csvReader = csv.reader(csvfile, delimiter=',',quoting=csv.QUOTE_NONNUMERIC)
                 for row in csvReader:
@@ -58,28 +73,20 @@ def applyAllFilters(image):
                 filter = filter.reshape(3,3)
                 print('Filter',filter)
             new_image = applySingleFilter(image, filter)
-            np.savetxt(f'{directory}/filterOutput{counter}.csv',new_image)
+            # Adding the corresponding bias to all values in the filtered image and then calling the ReLu function on it
+            
+            for row in range(new_image.shape[0]):
+                for column in range(new_image.shape[1]):
+                    new_image[row,column] += biases[counter-1]
+            
+            new_image = ReLu(new_image)
+            # Saving the output to the created directory as csv files.
+            np.savetxt(f'{output_directory}/filterOutput{counter}.csv',new_image)
             counter += 1
         except:
             print('Exit filter loop at counter:',counter)
             break
-'''
-def applyAllFilters(image):
-        counter = 1
-        filter = np.array([[]])
-        FilterFile = f'./filters_conv1/channel1_filter{counter}.csv'
-        with open(FilterFile,newline='')as csvfile:
-            csvReader = csv.reader(csvfile, delimiter=',', quoting=csv.QUOTE_NONNUMERIC)
-            for row in csvReader:
-                filter = np.append(filter,row)
-            filter = filter.reshape(3,3)
-            print('Filter',filter)
-        applySingleFilter(image, filter)
-        counter += 1
-        
 
-        return
-'''
 
 
 
