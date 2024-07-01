@@ -26,7 +26,6 @@ def bilinear_interpolation(arr, x, y):
 
 def resize(image_array, new_height, new_width):
     input_array = np.asarray(image_array)
-    print(input_array.shape)
     input_array = input_array[:, :, 0]
     height = input_array.shape[0]
     width = input_array.shape[1]
@@ -49,5 +48,4 @@ def resize(image_array, new_height, new_width):
             output_array[y, x] = bilinear_interpolation(input_array, p_x, p_y)
     
     output_array = output_array[..., np.newaxis]
-    print(output_array.shape)
     return output_array
