@@ -84,9 +84,9 @@ def applyAllFilters(image):
             #Copying image shape to Oimage to add all the other filters to it
             if Channel == 1:
                 Oimage = new_image.copy()
-                print("==========",Oimage)
+                
             Oimage += new_image
-            print("==========2",Oimage)
+            
             # Adding the corresponding bias to all values in the filtered image and then calling the ReLu function on it
             for row in range(Oimage.shape[0]):
                 for column in range(Oimage.shape[1]):
