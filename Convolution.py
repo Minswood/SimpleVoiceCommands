@@ -84,6 +84,7 @@ def applyAllFilters(image):
             #Copying image shape to Oimage to add all the other filters to it
             if Channel == 1:
                 Oimage = new_image.copy()
+                Oimage -= new_image
                 
             Oimage += new_image
             
