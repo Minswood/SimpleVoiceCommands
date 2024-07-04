@@ -48,4 +48,5 @@ def resize(image_array, new_height, new_width):
             output_array[y, x] = bilinear_interpolation(input_array, p_x, p_y)
     
     output_array = output_array[..., np.newaxis]
+    print('Resized image:', output_array)
     return output_array
