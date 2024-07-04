@@ -2,14 +2,6 @@ import numpy as np
 import csv
 import os
 
-'''
-def applySingleFilter(input, filter):
-    output = np.zeros(shape=np.shape(input))
-    for rows in range(len(input)):
-        for columns in range(len(input)):
-            output[rows,columns]= (input[rows-1,columns-1]*filter[rows-1,columns-1])+(input[rows-1,columns]*filter[rows-1,columns])+(input[rows-1,columns+1]*filter[rows-1,columns+1])+(input[rows,columns-1]*filter[rows,columns-1])+(input[rows,columns]*filter[rows,columns])+(input[rows,columns+1]*filter[rows,columns+1])+(input[rows+1,columns-1]*filter[rows+1,columns-1])+(input[rows+1,columns]*filter[rows+1,columns])+(input[rows+1,columns+1]*filter[rows+1,columns+1])
-            
-'''
 
 # The Convolution layer uses ReLu activation, which means all values below 0 are changed to 0. 
 def ReLu(filtered):
@@ -32,33 +24,26 @@ def applySingleFilter(input, filter):
                 for f_column in range(len(filter)):
                     element += filter[f_row,f_column] * input[(rows+f_row),(columns+f_column)]
             output[rows,columns] = element
-                    
-            
+                              
     return(output)
 
 
 
 # This function applies all saved filters on a single image, and saves their output. It calls the applySingleFilter function.
-
 def applyAllFilters(image):
     counter = 1
     output_directory = f'Conv1_Output'
     
-    #Saving the biases in an array for ease of use
+    #Saving the biases in a list for ease of use
     biases = []
     with open('./conv1Biases.csv',newline='')as csvfile:
                 csvReader = csv.reader(csvfile, delimiter=',',quoting=csv.QUOTE_NONNUMERIC)
                 for row in csvReader:
                     biases.append(row)
  
- 
- 
  #Creating a direcotyr for filter output if one does not exist
     if not os.path.exists(output_directory):
         os.makedirs(output_directory)
-    
-
-    
     
     # The combination of while and try-except is used, so that the function goes through all filter files one at a time, and stops when done
     while 1:
@@ -86,32 +71,17 @@ def applyAllFilters(image):
         except:
             print('Exit filter loop at counter:',counter)
             break
+ 
+    return
 
 
 
-
-#output[rows,columns] = (input[rows,columns]*filter[0,0])+(input[rows,columns+1]*filter[0,1])+(input[rows,columns+2]*filter[0,2])+(input[rows+1,columns]*filter[1,0])+(input[rows+1,columns+1]*filter[1,1])+(input[rows+1,columns+2]*filter[1,2])+(input[rows+2,columns]*filter[2,0])+(input[rows+2,columns+1]*filter[2,1])+(input[rows+2,columns+2]*filter[2,2])
-
-
-
-
+#This is for testing purposes
+'''
 filter = np.array([[-1,-1,-1],
                    [0,0,0],
                    [1,0.001,1]])  
 picture = np.random.rand(64,64)
 
 applyAllFilters(picture)
-
-
-'''
-filter = np.array([[-1,-1,-1],
-                   [0,0,0],
-                   [1,1,1]])  
-print(picture)
-print(filter)
-newPic = applySingleFilter(picture,filter)
-newPic = ReLu(newPic)
-print('Filtered Picture:\n',newPic)
-np.savetxt('FilteredImage.csv',newPic, delimiter=',')
-np.savetxt('OriginalImage.csv',picture, delimiter=',')
 '''
