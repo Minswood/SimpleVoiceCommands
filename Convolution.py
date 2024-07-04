@@ -1,17 +1,9 @@
 import numpy as np
+from numpy import asarray
 import matplotlib.pyplot as plt
 import os
 import csv
 import cv2
-
-#Testing
-""""
-img = cv2.imread('Doge.png', cv2.IMREAD_GRAYSCALE) / 255
-plt.imshow(img, cmap = 'gray')
-plt.show()
-img.shape
-""""
-
 
 
 
@@ -19,34 +11,29 @@ def ReLU(x):
     x = np.maximum(0.0, x)
     return x
 
-
-def convolution(image, kernel, padding = 0, strides=1):
+def convolution(image, kernel):
     
     #Flip kernel 180
     kernel = np.flipud(np.fliplr(kernel))
 
-     #Get image & kernel shape                 
-    X_Kernel = kernel.shape[0]
-    Y_Kernel = kernel.shape[1]
-    X_Img = image.shape[0]
-    Y_Img = image.shape[1]
+    kernel_size = len(kernel)
+    row = img.shape[0] - len(kernel) + 1
+    col = img.shape[1] - len(kernel[0]) + 1
+    Output = np.zeros(shape=(row, col))
 
-    X_Output = ((X_Img - X_Kernel + 2 * padding) // strides) + 1
-    Y_Output = (( Y_Img - Y_Kernel + 2 * padding) // strides) + 1
-   
-    Output = np.zeros(shape=(X_Output, Y_Output))
-    
-    for i in range(X_Output):
-        for j in range(Y_Output):
-            current = img[i : i + X_Kernel, j : j + Y_Kernel] 
+    for i in range(row):
+        for j in range(col):
+            current = img[i : i + kernel_size, j : j + kernel_size]
             multiplication = (sum(sum(current * kernel)))
             Output[i, j] = multiplication
     return Output
 
-#Using modified Kasperi's applyALLFilters code to go through all channels
+
 # This function applies all saved filters on a single image, and saves their output. It calls the applySingleFilter function.
 
-def applyAllFilters(image):
+
+def applyAllFilters():
+    OutputCounter = 1
     counter = 1
     Channel = 1
     channelCounter = 1
@@ -70,6 +57,19 @@ def applyAllFilters(image):
     # The combination of while and try-except is used, so that the function goes through all filter files one at a time, and stops when done
     while 1:
         try:
+            #Get conv1 outputs
+            filterOutput = np.array([[]])
+            OutputFiles = f'./Conv1/Conv1_Output/filterOutput{OutputCounter}.csv' #Check the Output files location
+            #OutputFiles = f'./Conv1/filters_conv1/channel1_filter{OutputCounter}.csv' for testing
+           # Appending the rows in one filter to the empty filter array and then applying it on the image using the applySingleFilter function
+            with open(OutputFiles,newline='')as csvfile:
+                reader = csv.reader(csvfile, delimiter=',')
+                for row in reader:
+                    filterOutput = np.append(filterOutput, row)
+
+                print(OutputCounter)
+                print('FilterOutput',filterOutput)
+         
             filter = np.array([[]])
             FilterFile = f'./filters_conv2/channel{channelCounter}_filter{counter}.csv'
            # Appending the rows in one filter to the empty filter array and then applying it on the image using the applySingleFilter function
@@ -78,39 +78,49 @@ def applyAllFilters(image):
                 for row in csvReader:
                     filter = np.append(filter,row)
                 filter = filter.reshape(3,3)
-                #print('Filter',filter)
-            new_image = convolution(image, filter)
-        
+                print('Filter',filter)
+            new_image = convolution(filterOutput, filter)
+            print(new_image)
+            
             #Copying image shape to Oimage to add all the other filters to it
-            if Channel == 1:
+            if OutputCounter == 1:
                 Oimage = new_image.copy()
                 Oimage -= new_image
-                
+              
             Oimage += new_image
-            
-            # Adding the corresponding bias to all values in the filtered image and then calling the ReLu function on it
-            for row in range(Oimage.shape[0]):
-                for column in range(Oimage.shape[1]):
-                    Oimage[row,column] += biases[counter-1]
-        
-            #ReLU        
-            OImage = ReLU(Oimage)
-        
-            counter += 1
-            #print(counter)
-            #print(channelCounter)
-            #print(Channel)
-            Channel = 0
-            if(counter == 65):
-                Channel = 1
+
+            OutputCounter += 1
+                 
+            print("Counter = ", counter) #Which filter is going through all the 32 outputs
+            print("Current channel = ", channelCounter)
+            if(OutputCounter == 33):
+
+                 # Adding the corresponding bias to all values in the filtered image and then calling the ReLu function on it
+                for row in range(Oimage.shape[0]):
+                    for column in range(Oimage.shape[1]):
+                        Oimage[row,column] += biases[counter-1]
+                        
+                print("Biases = ",biases[counter-1])
+                
+                #ReLU        
+                OImage = ReLU(Oimage)
+                
+                counter += 1
+                
                 Oimage = np.array([])
-                np.savetxt(f'{output_directory}/filter2Output{channelCounter}.csv',OImage)
-                channelCounter +=1
-                counter = 1
+                
+                np.savetxt(f'{output_directory}/filter2Output{counter}Channel{channelCounter}.csv',OImage)
+                
+                OutputCounter = 1
+                
+                if(counter == 65):
+                    channelCounter +=1
+                    counter = 1
+              
                 
         except:
             print("Exit filter loop at channel: "+ str(channelCounter) + " & counter: " + str(counter))
             break
 
 
-#applyAllFilters(img)
+#applyAllFilters()
