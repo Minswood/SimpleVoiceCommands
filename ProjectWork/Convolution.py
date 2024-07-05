@@ -41,7 +41,7 @@ def applyAllFilters(image):
                 for row in csvReader:
                     biases.append(row)
  
- #Creating a direcotyr for filter output if one does not exist
+ # Creating a directory for filter output if one does not exist
     if not os.path.exists(output_directory):
         os.makedirs(output_directory)
     
@@ -50,7 +50,8 @@ def applyAllFilters(image):
         try:
             filter = np.array([[]])
             FilterFile = f'./filters_conv1/channel1_filter{counter}.csv'
-           # Appending the rows in one filter to the empty filter array and then applying it on the image using the applySingleFilter function
+ 
+           # A single filter is opened and applied to the image:
             with open(FilterFile,newline='')as csvfile:
                 csvReader = csv.reader(csvfile, delimiter=',',quoting=csv.QUOTE_NONNUMERIC)
                 for row in csvReader:
@@ -58,15 +59,16 @@ def applyAllFilters(image):
                 filter = filter.reshape(3,3)
                 print('Filter',filter)
             new_image = applySingleFilter(image, filter)
-            # Adding the corresponding bias to all values in the filtered image and then calling the ReLu function on it
+  
             
+            # Adding the corresponding bias to all values in the filtered image and then calling the ReLu function on it
             for row in range(new_image.shape[0]):
                 for column in range(new_image.shape[1]):
                     new_image[row,column] += biases[counter-1]
             
             new_image = ReLu(new_image)
             # Saving the output to the created directory as csv files.
-            np.savetxt(f'{output_directory}/filterOutput{counter}.csv',new_image)
+            np.savetxt(f'{output_directory}/filterOutput{counter}.csv',new_image,delimiter=',')
             counter += 1
         except:
             print('Exit filter loop at counter:',counter)
@@ -77,11 +79,11 @@ def applyAllFilters(image):
 
 
 #This is for testing purposes
-'''
+
+
 filter = np.array([[-1,-1,-1],
                    [0,0,0],
                    [1,0.001,1]])  
-picture = np.random.rand(64,64)
+picture = np.random.rand(32,32)
 
 applyAllFilters(picture)
-'''
