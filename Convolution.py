@@ -11,7 +11,7 @@ def ReLU(x):
 def convolution(image, kernel):
     
     #Flip kernel 180
-    #kernel = np.flipud(np.fliplr(kernel))
+    kernel = np.flipud(np.fliplr(kernel))
 
     kernel_size = len(kernel)
     row = image.shape[0] - len(kernel) + 1
