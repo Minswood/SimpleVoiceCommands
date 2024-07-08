@@ -45,7 +45,7 @@ def addNextImage(base, addition):
 # This function applies all saved filters on a single image, and saves their output. It calls the applySingleFilter function.
 
 
-def applyAllFilters():
+def Conv2():
     InputCounter = 1
     FilterCounter = 1
     Channel = 1
@@ -128,4 +128,4 @@ def applyAllFilters():
             print("Exit filter loop at channel: "+ str(InputCounter) + " & filter: " + str(FilterCounter))
             break
 
-#applyAllFilters()
+#Conv2()
