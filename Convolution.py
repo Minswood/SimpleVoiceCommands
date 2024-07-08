@@ -113,7 +113,7 @@ def Conv2():
                 FilterCounter += 1
                 
                 Outputimage = np.array([])
-                np.savetxt(f'{output_directory}/Conv2Output{Output}.csv',summedImage)
+                np.savetxt(f'{output_directory}/Conv2Output{Output}.csv',summedImage, delimiter=',')
                 Output +=1
                 summedImage = np.array([])
         
