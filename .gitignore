@@ -1,1 +1,10 @@
+
+__pycache__/
+
+output.wav
+
+dense1Biases.csv
+dense2Biases.csv
+dense1Weights.csv
+dense2Weights.csv
 Conv1_Output/
