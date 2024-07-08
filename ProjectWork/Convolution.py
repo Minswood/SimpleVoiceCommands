@@ -14,23 +14,34 @@ def ReLu(filtered):
     return output
 
 
+
+
 # This function iterates a single filter over an input image. It will be used in another function that calls it on multiple filters
-def applySingleFilter(input, filter):
-    output = np.zeros(shape=(np.shape(input)[0]-2,np.shape(input)[0]-2))
-    for rows in (range(len(input)-2)):
-        for columns in (range(len(input)-2)):
-            element = 0
-            for f_row in range(len(filter)):
-                for f_column in range(len(filter)):
-                    element += filter[f_row,f_column] * input[(rows+f_row),(columns+f_column)]
-            output[rows,columns] = element
-                              
-    return(output)
+def applySingleFilter(image, kernel):
+ 
+    #Flip kernel 180
+    kernel = np.flipud(np.fliplr(kernel))
+
+    kernel_size = len(kernel)
+    row = image.shape[0] - len(kernel) + 1
+    col = image.shape[1] - len(kernel[0]) + 1
+  
+    Output = np.zeros(shape=(row, col))
+
+    for i in range(row):
+        for j in range(col):
+            current = image[i : i + kernel_size, j : j + kernel_size]
+            current = np.asarray(current, dtype='float64')
+            multiplication = (sum(sum(current * kernel)))
+            Output[i, j] = multiplication
+    return Output
+
+
 
 
 
 # This function applies all saved filters on a single image, and saves their output. It calls the applySingleFilter function.
-def applyAllFilters(image):
+def Conv1(image):
     counter = 1
     output_directory = f'Conv1_Output'
     
@@ -76,14 +87,3 @@ def applyAllFilters(image):
  
     return
 
-
-
-#This is for testing purposes
-
-
-filter = np.array([[-1,-1,-1],
-                   [0,0,0],
-                   [1,0.001,1]])  
-picture = np.random.rand(32,32)
-
-applyAllFilters(picture)

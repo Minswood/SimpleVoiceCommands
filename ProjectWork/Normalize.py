@@ -14,7 +14,7 @@ def NormalizeSingle(input):
     #Defining variables and arrays. 
     output = np.zeros(shape=(np.shape(input)))
     varTable = np.zeros(shape=(np.shape(input)))
-    print('NormalizeSingle Input Shape:\n',input.shape)
+    #print('NormalizeSingle Input Shape:\n',input.shape)
     shape = input.shape[0]*input.shape[1]
     mean = 0
     var=0
@@ -24,7 +24,7 @@ def NormalizeSingle(input):
         for y in x:
             mean += y
     mean = mean/(input.shape[0]*input.shape[1])
-    print('NormalizeSingle Input Mean:\n',mean)
+    #print('NormalizeSingle Input Mean:\n',mean)
     
     #Counting the variance of the input array
     for row in range(len(input)):
@@ -34,9 +34,11 @@ def NormalizeSingle(input):
         for y in x:
             var +=y
     var = var/shape
-    print('NormalizeSingle Input Variance:\n',var)
+    SD = var**0.5
+    #print('NormalizeSingle Input Variance:\n',var)
+    #print('NormalizeSingle Input SD:\n',SD)
    
-    #The normalization for each element of input array and putting them into output array
+    #The normalization of each element in input array and putting them into output array
     for row in range(len(input)):
         for column in range(len(input[row])):
             output[row,column] = (input[row,column]-mean)/(var**0.5)
@@ -45,7 +47,7 @@ def NormalizeSingle(input):
 
 
 
-# Calling the NormalizeSingle function for each batch in a layer.
+# Calling the NormalizeSingle function for each batch in a layer. Turns out this one is not required, but it is still here just in case
 def NormalizeLayer(layer):
     output = np.zeros(shape=np.shape(layer))
     for batch in range(len(layer)):
@@ -58,29 +60,8 @@ def NormalizeLayer(layer):
 
 
 
-#Everyting beyond this points is for testing purposes and will be removed at a later date.
-'''
-test_layer = np.random.rand(64,32,32)
-new_layer = NormalizeLayer(test_layer)
-for i in new_layer:
-    print(i)
-'''
 
 
-#print ('The random layer:\n',test_layer)
-#print('The layer shape:\n',np.shape(test_layer))
-#output = np.zeros(shape=np.shape(test_layer))
-#print('TEST:\n',test_layer[1],'\nAND THE SHAPE:\n',np.shape(test_layer[1]))
-
-
-
-'''
-Counter = 0
-for batch in test_layer:
-    print('BATCH:\n',batch,'\nBATCH SHAPE:\n',np.shape(batch))
-    Counter+=1
-print('Batch Count:',Counter)
-'''
 
 
 
