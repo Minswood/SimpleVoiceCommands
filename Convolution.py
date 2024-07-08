@@ -49,7 +49,6 @@ def Conv2():
     InputCounter = 1
     FilterCounter = 1
     Channel = 1
-    #channelCounter = 1
     Output = 1
     output_directory = f'Conv2_Output'
     #Saving the biases in an array for ease of use
@@ -98,7 +97,7 @@ def Conv2():
             summedImage = addNextImage(Outputimage, new_image)
              
             InputCounter += 1
-                 
+            print("InputCounter = " + str(InputCounter) + " FilterCounter = " + str(FilterCounter))     
             if(InputCounter == 33):
 
                 # Adding the corresponding bias to all values in the filtered image and then calling the ReLu function on it
@@ -116,11 +115,14 @@ def Conv2():
                 np.savetxt(f'{output_directory}/Conv2Output{Output}.csv',summedImage, delimiter=',')
                 Output +=1
                 summedImage = np.array([])
-        
+                
+                if(InputCounter == 33 and FilterCounter == 65):
+                    print("Exit filter loop at channel: "+ str(InputCounter) + " & filter: " + str(FilterCounter))
+                    break
+                    
                 InputCounter = 1
                 
                 if(FilterCounter == 65):
-                    channelCounter +=1
                     FilterCounter = 1
               
                 
