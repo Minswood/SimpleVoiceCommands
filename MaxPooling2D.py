@@ -51,7 +51,7 @@ def maxPool2D(*pool_size, strides):
                     current = conv2Output[i*strides : i*strides+pool_size[0], j*strides : j*strides+pool_size[1]]
                     current = np.asarray(current, dtype='float64')
                     output_pooled_img[i, j] = np.max(current)
-        print(output_pooled_img.shape)
+        # print(output_pooled_img.shape)
         maxPoolingOutput = np.append(maxPoolingOutput, output_pooled_img)
              
     return  maxPoolingOutput.reshape(-1,14,14)
