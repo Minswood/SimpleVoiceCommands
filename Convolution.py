@@ -48,7 +48,6 @@ def addNextImage(base, addition):
 def Conv2():
     InputCounter = 1
     FilterCounter = 1
-    Channel = 1
     Output = 1
     output_directory = f'Conv2_Output'
     #Saving the biases in an array for ease of use
@@ -97,7 +96,7 @@ def Conv2():
             summedImage = addNextImage(Outputimage, new_image)
              
             InputCounter += 1
-            print("InputCounter = " + str(InputCounter) + " FilterCounter = " + str(FilterCounter))     
+            #print("InputCounter = " + str(InputCounter) + " FilterCounter = " + str(FilterCounter))     
             if(InputCounter == 33):
 
                 # Adding the corresponding bias to all values in the filtered image and then calling the ReLu function on it
