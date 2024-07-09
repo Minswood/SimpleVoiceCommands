@@ -28,23 +28,7 @@ def convolution(image, kernel):
             Output[i, j] = multiplication
     return Output
 
-def addNextImage(base, addition):
-    try:
-        if np.shape(base) == np.shape(addition):
-            output = np.zeros(shape=(np.shape(base)))
-            for row in range(len(base)):
-                for column in range(len(base[row])):
-                    output[row,column] = (base[row,column] + addition[row,column])
-        else:
-            print('Images not same shape')
-    except:
-        print('Error in addNextImage')
-            
-    return output
-
 # This function applies all saved filters on a single image, and saves their output. It calls the applySingleFilter function.
-
-
 def Conv2():
     InputCounter = 1
     FilterCounter = 1
@@ -56,7 +40,6 @@ def Conv2():
                 csvReader = csv.reader(csvfile, delimiter=',',quoting=csv.QUOTE_NONNUMERIC)
                 for row in csvReader:
                     biases.append(row)
- 
  
  
  #Creating a directory for filter output if one does not exist
@@ -93,10 +76,12 @@ def Conv2():
                 Outputimage = new_image.copy()
                 Outputimage -= new_image
                 
-            summedImage = addNextImage(Outputimage, new_image)
+            
+            summedImage = np.add(Outputimage, new_image) 
+            
              
             InputCounter += 1
-            #print("InputCounter = " + str(InputCounter) + " FilterCounter = " + str(FilterCounter))     
+            print("InputCounter = " + str(InputCounter) + " FilterCounter = " + str(FilterCounter))     
             if(InputCounter == 33):
 
                 # Adding the corresponding bias to all values in the filtered image and then calling the ReLu function on it
