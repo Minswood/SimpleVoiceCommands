@@ -16,26 +16,26 @@ def NormalizeSingle(input):
     varTable = np.zeros(shape=(np.shape(input)))
     #print('NormalizeSingle Input Shape:\n',input.shape)
     shape = input.shape[0]*input.shape[1]
-    # mean = 0
-    # var=0
-    mean = 1.254094094038009644e-01
-    var = 5.840317010879516602e-01
+    mean = 0
+    var=0
+    # mean = 1.254094094038009644e-01
+    # var = 5.840317010879516602e-01
     #Counting the mean of the input array
-    # for x in input:
-    #     for y in x:
-    #         mean += y
-    # mean = mean/(input.shape[0]*input.shape[1])
+    for x in input:
+        for y in x:
+            mean += y
+    mean = mean/(input.shape[0]*input.shape[1])
     #print('NormalizeSingle Input Mean:\n',mean)
     
     #Counting the variance of the input array
-    # for row in range(len(input)):
-    #     for column in range(len(input[row])):
-    #         varTable[row, column] = (input[row,column]-mean)**2        
-    # for x in varTable:
-    #     for y in x:
-    #         var +=y
-    # var = var/shape
-    # SD = var**0.5
+    for row in range(len(input)):
+        for column in range(len(input[row])):
+            varTable[row, column] = (input[row,column]-mean)**2        
+    for x in varTable:
+        for y in x:
+            var +=y
+    var = var/shape
+    SD = var**0.5
     #print('NormalizeSingle Input Variance:\n',var)
     #print('NormalizeSingle Input SD:\n',SD)
    

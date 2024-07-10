@@ -49,6 +49,7 @@ def get_wav_file(path, labels):
     index = label_indices[random_int].astype(np.int64)
     label = labels[index]
     print(label)
+    # print("Up")
 
     audio = read_file(filename)
     audio_np_int16 = np.frombuffer(audio, dtype=np.int16)

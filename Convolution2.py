@@ -11,7 +11,7 @@ def ReLU(x):
 def convolution(image, kernel):
     
     #Flip kernel 180
-    kernel = np.flipud(np.fliplr(kernel))
+    # kernel = np.flipud(np.fliplr(kernel))
 
     kernel_size = len(kernel)
     row = image.shape[0] - len(kernel) + 1
@@ -95,7 +95,8 @@ def Conv2():
                 Outputimage = new_image.copy()
                 Outputimage -= new_image
                 
-            summedImage = addNextImage(Outputimage, new_image)
+            summedImage = addNextImage(Outputimage, new_image) 
+            Outputimage = summedImage
              
             InputCounter += 1
                  
@@ -112,15 +113,17 @@ def Conv2():
                 
                 FilterCounter += 1
                 
-                Outputimage = np.array([])
                 np.savetxt(f'{output_directory}/Conv2Output{Output}.csv',summedImage, delimiter=',')
                 Output +=1
                 summedImage = np.array([])
+
+                if(InputCounter == 33 and FilterCounter == 65):
+                    print("Exit filter loop at channel: "+ str(InputCounter) + " & filter: " + str(FilterCounter))
+                    break
         
                 InputCounter = 1
                 
                 if(FilterCounter == 65):
-                    channelCounter +=1
                     FilterCounter = 1
               
                 

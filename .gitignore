@@ -8,3 +8,4 @@ dense2Biases.csv
 dense1Weights.csv
 dense2Weights.csv
 Conv1_Output/
+Conv2_Output/
