@@ -1,7 +1,7 @@
 import tensorflow as tf
 from record_audio import PAStreamParams
 from resize import resize
-from fetch_audio import get_wav_file, get_recording
+from fetch_audio import get_wav_file, get_recording, get_random_file
 import Convolution
 import Convolution2
 import dense
@@ -9,44 +9,82 @@ import Normalize
 import Flatten
 import MaxPooling2D
 import spectrogram
+import numpy as np
 """
 [0.01203623 0.01131216 0.04545065 0.00425149 0.01260863 0.44165179
  0.10015564 0.3725334 ]
 """
-
-if __name__=="__main__":
-    dense1Weights, dense1Biases = dense.get_weights_and_biases('dense1Weights.csv', 'dense1Biases.csv')
-    dense2Weights, dense2Biases = dense.get_weights_and_biases('dense2Weights.csv', 'dense2Biases.csv')
-
-    dense1 = tf.keras.layers.Dense(128, activation='relu')
-    dense2 = tf.keras.layers.Dense(8)
-
-    dense1.build(input_shape=(12544,))
-    dense2.build(input_shape=(128,))
-
-    dense1.set_weights([dense1Weights, dense1Biases])
-    dense2.set_weights([dense2Weights, dense2Biases])
-
-
+'''
+def main():
     labels = ["Down", "Go", "Left", "No", "Right", "Stop", "Up", "Yes"]
+    print("\nGETTING AUDIO")
     image, label = get_wav_file('mini_speech_commands_sample/*/*.wav', labels)
+    print("\nTURING AUDIO TO SPECTOGRAM AND RESIZE")
     image = spectrogram.get_spectrogram(image)
     image = resize(image, 32, 32)
+    print("\nNORMALIZATION")
     image = Normalize.NormalizeSingle(image)
+    print("CONVOLUTION 1")
     Convolution.Conv1(image)
+    print("\nCONVOLUTION 2")
     Convolution2.Conv2()
+    print("\nMAXPOOLING AND FLATTEN")
     image = MaxPooling2D.maxPool2D(2, 2, strides=2)
     image = Flatten.flatten(image)
-
-    # copy_image = image.copy()
+    print("\nFIRST DENSE")
     image = dense.dense_1(image)
+    print("\nSECOND DENSE")
+    image = dense.dense_2(image)
+    print("\nRESULT",image)
+    print('SUM OF RESULTS:',np.sum(image))
+    print("WINNER IS:", np.max(image))
 
-    # tf_image = copy_image[tf.newaxis,...]
-    # tf_image = dense1(tf_image)
-    # print("own dense1 \n", image)
-    # print("tf dense1 \n", tf_image)
+    CM = np.zeros(8,8)
+    
+    return
+'''
+def main():
+    labels = ["Down", "Go", "Left", "No", "Right", "Stop", "Up", "Yes"]
+    CM = np.zeros(shape=(8,8))
+    for correct in range(8):
+        for afile in range(7):
+            print("\nGETTING AUDIO")
+            fileIndex = (correct+1)*(afile+1)
+            image, label = get_wav_file('mini_speech_commands_sample/*/*.wav', labels, fileIndex)
+            print('AUDIOFILE SHAPE:',np.shape(image))
+            print("\nTURING AUDIO TO SPECTOGRAM AND RESIZE")
+            image = spectrogram.get_spectrogram(image)
+            print(np.shape(image))
+            #image = image[...,np.newaxis]
+            image = resize(image, 32, 32)
+            print("\nNORMALIZATION")
+            image = Normalize.NormalizeSingle(image)
+            print("CONVOLUTION 1")
+            Convolution.Conv1(image)
+            print("\nCONVOLUTION 2")
+            Convolution2.Conv2()
+            print("\nMAXPOOLING AND FLATTEN")
+            image = MaxPooling2D.maxPool2D(2, 2, strides=2)
+            image = Flatten.flatten(image)
+            print("\nFIRST DENSE")
+            image = dense.dense_1(image)
+            print("\nSECOND DENSE")
+            image = dense.dense_2(image)
+            print("\nRESULT",image)
+            print('SUM OF RESULTS:',np.sum(image))
+            winner = np.max(image)
+            print("WINNER IS:", winner)
+            winnerIndex = np.where(image==winner)[0][0]
+                    
+            CM[correct,winnerIndex] += 1
+            print(CM)
 
-    result = dense.dense_2(image)
-    # tf_result = dense2(tf_image)
-    print("own result \n", result)
-    # print("Result \n", tf_result)
+    return
+
+
+
+
+
+if __name__=="__main__":
+    main()
+ 

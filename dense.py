@@ -115,17 +115,22 @@ def dense_2(input):
         # print("tf softmax", tf.nn.softmax(output))
         # Convert output to propabilities that amount to one.
         # output = np.exp(output) / sum(np.exp(output)) 
-        # output = getPercent(output)
+        output = getPercent(output)
         return output
     
 def getPercent(input):
     sum = 0
     output = []
     for x in input:
-        sum += x
+        if x > 0:
+            sum += x
     for x in input:
-        output.append((x/sum) * 100)
+        if x > 0:
+            output.append((x/sum)*100)
+        if x <= 0:
+            output.append(0)         
     return output
+
 
 def main():
     labels = ["Down", "Go", "Left", "No", "Right", "Stop", "Up", "Yes"]
