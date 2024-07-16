@@ -3,7 +3,7 @@ os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 import tensorflow as tf
 from record_audio import PAStreamParams
 from resize import resize
-from fetch_audio import get_wav_file, get_recording
+from fetch_audio import get_wav_file, get_recording, get_random_file
 import Convolution
 import Convolution2
 import dense
