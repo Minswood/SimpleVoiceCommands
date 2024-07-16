@@ -9,3 +9,5 @@ dense1Weights.csv
 dense2Weights.csv
 Conv1_Output/
 Conv2_Output/
+Conv2D_Test/
+Conv2D_Test2/

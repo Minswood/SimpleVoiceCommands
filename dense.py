@@ -1,7 +1,6 @@
 import numpy as np  
 import random
 import csv
-import scipy
 import tensorflow as tf
 
 def relu_activation(x):
@@ -44,26 +43,13 @@ def dense_1(input):
     weights, bias = get_weights_and_biases('dense1Weights.csv', 'dense1Biases.csv')
     output = []
     try:
-        # product = np.dot(input, weights) + bias
-        # for i in range (units):
-        #     activated = relu_activation(product[i])
-        #     output.append(activated)
-
-        # product = np.dot(input, weights) + bias
         for i in range(units):
             product = 0
             counter = 0
             for j in range(input.size):
                 product += input[j] * weights[j][i] 
-                # if(i == 4 and product <1 ):
-                #     print("product from loop", product)
-                #     counter +=1
-                # if(i == 4):
-                #     print("counter", counter)
-           
             product += bias[i]
             product = relu_activation(product)
-        # print("dense 1, product shape", output.shape)
             output.append(product)
         
     except TypeError as e:
@@ -84,27 +70,17 @@ def dense_2(input):
     output = []
   
     try:
-        # output = np.dot(input, weights) + bias
-        # for i in range (units):
-        #     activated = relu_activation(product[i])
-        #     output.append(activated)
-
-        # product = np.dot(input, weights) + bias
         for i in range(units):
             product = 0
             dense2counter = 0
             for j in range(input.size):
                 product += input[j] * weights[j][i] 
                 dense2counter += 1
-            # print("Product before bias", product)
             product += bias[i]
-            # print("Product after bias", product)
-
-            # product = relu_activation(product)
-            
-        # print("dense 2, product shape", output.shape)
+            # if(product >= 0):
+            #     output.append(product)
+            # else:
             output.append(product)
-            # print('Dense counter', dense2counter)
     except TypeError as e:
         print("Type error: " + str(e))
     except IndexError as e:

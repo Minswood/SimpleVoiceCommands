@@ -43,13 +43,13 @@ def get_wav_file(path, labels):
     num_items = 7 # Number of audio files in each speech command folder
     label_indices = generate_label_indices(labels, num_items)
     random_int = random.randint(0, (len(labels) * num_items) - 1)
-    filename = get_random_file(path, random_int)
-    # filename = 'mini_speech_commands_sample/Up/0ab3b47d_nohash_0.wav'
+    # filename = get_random_file(path, random_int)
+    filename = 'mini_speech_commands_sample/Left/0c2d2ffa_nohash_0.wav'
     print(filename)
     index = label_indices[random_int].astype(np.int64)
     label = labels[index]
-    print(label)
-    # print("Up")
+    # print(label)
+    # print("No")
 
     audio = read_file(filename)
     audio_np_int16 = np.frombuffer(audio, dtype=np.int16)

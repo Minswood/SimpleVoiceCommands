@@ -47,7 +47,7 @@ def get_spectrogram(waveform, window_length=256, window_step=128):
         spectrogram = np.array(spectrogram)
         spectrogram = np.abs(spectrogram) # Get only magnitudes of the dft
         spectrogram = spectrogram[..., np.newaxis]
-        print("spectrogram shape:", spectrogram.shape)
+        # print("spectrogram shape:", spectrogram.shape)
         return spectrogram
 
 def tf_get_spectrogram(waveform):

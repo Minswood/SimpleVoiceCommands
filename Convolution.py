@@ -1,3 +1,4 @@
+import cv2
 import numpy as np
 import csv
 import os
@@ -36,9 +37,15 @@ def applySingleFilter(image, kernel):
             Output[i, j] = multiplication
     return Output
 
-
-
-
+def convReady(image,kernel):
+    kernel = kernel[::-1,::-1]
+    convolved = cv2.filter2D(image, -1, kernel) # Convolve
+ 
+    H = np.floor(np.array(kernel.shape)/2).astype(np.int32) # Find half dims of kernel
+    convolved = convolved[H[0]:-H[0],H[1]:-H[1]] # Cut away unwanted information    
+ 
+ 
+    return  convolved
 
 # This function applies all saved filters on a single image, and saves their output. It calls the applySingleFilter function.
 def Conv1(image):
@@ -70,7 +77,7 @@ def Conv1(image):
                 filter = filter.reshape(3,3)
                 # print('Filter',filter)
             new_image = applySingleFilter(image, filter)
-  
+            # new_image = convReady(image,filter)
             
             # Adding the corresponding bias to all values in the filtered image and then calling the ReLu function on it
             for row in range(new_image.shape[0]):

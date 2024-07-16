@@ -1,3 +1,4 @@
+import cv2
 import numpy as np
 from numpy import asarray
 import os
@@ -43,7 +44,15 @@ def addNextImage(base, addition):
     return output
 
 # This function applies all saved filters on a single image, and saves their output. It calls the applySingleFilter function.
-
+def convReady(image,kernel):
+    # kernel = kernel[::-1,::-1]
+    convolved = cv2.filter2D(image, -1, kernel) # Convolve
+ 
+    H = np.floor(np.array(kernel.shape)/2).astype(np.int32) # Find half dims of kernel
+    convolved = convolved[H[0]:-H[0],H[1]:-H[1]] # Cut away unwanted information    
+ 
+ 
+    return  convolved
 
 def Conv2():
     InputCounter = 1
@@ -74,7 +83,7 @@ def Conv2():
             
            # Appending the rows in one filter to the empty filter array and then applying it on the image using the applySingleFilter function
             with open(Input,newline='')as csvfile:
-                reader = csv.reader(csvfile, delimiter=',')
+                reader = csv.reader(csvfile, delimiter=',',quoting=csv.QUOTE_NONNUMERIC)
                 for row in reader:
                     filterOutput = np.append(filterOutput, row)
                 filterOutput = filterOutput.reshape(30,30)
@@ -89,7 +98,7 @@ def Conv2():
                 filter = filter.reshape(3,3)
                 
             new_image = convolution(filterOutput, filter)
-            
+            # new_image = convReady(filterOutput, filter)
             #Copying image shape to Oimage to add all the other filters to it
             if InputCounter == 1:
                 Outputimage = new_image.copy()
@@ -131,4 +140,4 @@ def Conv2():
             print("Exit filter loop at channel: "+ str(InputCounter) + " & filter: " + str(FilterCounter))
             break
 
-#Conv2()
+# Conv2()
