@@ -50,7 +50,7 @@ def get_wav_file(path, labels, fileIndex):
         filename = get_random_file(path, random_int)
         index = label_indices[random_int].astype(np.int64)
         
-    # filename = 'mini_speech_commands_sample/Up/0ab3b47d_nohash_0.wav'
+    # filename = 'mini_speech_commands_sample/Stop/0b56bcfe_nohash_1.wav'
     print(filename)
     
     label = labels[index]

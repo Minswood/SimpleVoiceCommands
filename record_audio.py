@@ -37,6 +37,7 @@ class Recorder:
         By default the length of the recording is one second.
         """
         print("Start recording")
+        
         self._create_stream()
         recorded_audio = self._write_frames_from_stream(duration)
         self._close_recording()
