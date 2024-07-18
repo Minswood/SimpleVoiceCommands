@@ -4,7 +4,7 @@ import os
 import csv
 
 def maxPool2D(*pool_size, strides):
-   
+
     maxPoolingOutput = np.array([[[]]])
     
     for InputCounter in range(64):
@@ -14,12 +14,11 @@ def maxPool2D(*pool_size, strides):
                 
         # Appending the rows in one filter to the empty filter array and then applying it on the image using the applySingleFilter function
         with open(Input,newline='')as csvfile:
-            reader = csv.reader(csvfile, delimiter=',')
+            reader = csv.reader(csvfile, delimiter=',',quoting=csv.QUOTE_NONNUMERIC)
             for row in reader:
                 conv2Output = np.append(conv2Output, row)
             conv2Output = conv2Output.reshape(28,28)
-    
-        
+
         if len(pool_size) < 2: #Checks if pool_size has 2 values
             row = math.floor((conv2Output.shape[0] - pool_size[0]) / strides) + 1
             col = math.floor((conv2Output.shape[1] - pool_size[0]) / strides) + 1
@@ -51,10 +50,9 @@ def maxPool2D(*pool_size, strides):
                     current = conv2Output[i*strides : i*strides+pool_size[0], j*strides : j*strides+pool_size[1]]
                     current = np.asarray(current, dtype='float64')
                     output_pooled_img[i, j] = np.max(current)
-        print(output_pooled_img.shape)
         maxPoolingOutput = np.append(maxPoolingOutput, output_pooled_img)
              
     return  maxPoolingOutput.reshape(-1,14,14)
     
-#output = maxPool2D(2,2, strides = 2)
-#print(output.shape)    
+# output = maxPool2D(2,2, strides = 2)
+# print(output)    

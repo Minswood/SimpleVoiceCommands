@@ -2,6 +2,8 @@ import wave
 import numpy as np
 from dataclasses import dataclass, asdict
 import pyaudio
+import time
+
 
 @dataclass
 class PAStreamParams:
@@ -37,6 +39,7 @@ class Recorder:
         By default the length of the recording is one second.
         """
         print("Start recording")
+        # time.sleep(0.1)
         self._create_stream()
         recorded_audio = self._write_frames_from_stream(duration)
         self._close_recording()

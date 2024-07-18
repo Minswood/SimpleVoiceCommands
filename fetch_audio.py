@@ -39,14 +39,20 @@ def check_audio_length(audio):
         audio = crop_audio(audio)
     return audio
 
-def get_wav_file(path, labels):
+def get_wav_file(path, labels, fileIndex):
     num_items = 7 # Number of audio files in each speech command folder
     label_indices = generate_label_indices(labels, num_items)
     random_int = random.randint(0, (len(labels) * num_items) - 1)
-    filename = get_random_file(path, random_int)
-    # filename = 'mini_speech_commands_sample/Up/0ab3b47d_nohash_0.wav'
+    if fileIndex > 0:
+        filename = get_random_file(path, fileIndex)
+        index = label_indices[fileIndex-1].astype(np.int64)
+    else:
+        filename = get_random_file(path, random_int)
+        index = label_indices[random_int].astype(np.int64)
+        
+    # filename = 'mini_speech_commands_sample/Stop/0b56bcfe_nohash_1.wav'
     print(filename)
-    index = label_indices[random_int].astype(np.int64)
+    
     label = labels[index]
     print(label)
 

@@ -1,11 +1,10 @@
 import numpy as np  
 import random
 import csv
-
-import scipy
+import tensorflow as tf
 
 def relu_activation(x):
-    return max(0, x)
+    return max(0.0, x)
     
 def get_weights(path_weights):
     weights = []
@@ -17,7 +16,7 @@ def get_weights(path_weights):
     except FileNotFoundError as e:
         print("get_weights:", str(e))
     else:
-        weights = np.asarray(weights)
+        weights = np.asarray(weights, dtype=np.float32)
         return weights
     
 def get_biases(path_biases):
@@ -30,7 +29,7 @@ def get_biases(path_biases):
     except FileNotFoundError as e:
         print("get_biases:", str(e))
     else:
-        biases = np.asarray(biases)
+        biases = np.asarray(biases, dtype=np.float32)
         return biases
 
 def get_weights_and_biases(path_weights, path_biases):
@@ -38,18 +37,21 @@ def get_weights_and_biases(path_weights, path_biases):
     biases = get_biases(path_biases)
     return weights, biases
 
-# units specifies the number of neurons (outputs) in the layer
-def dense_1(input, units):
+def dense_1(input):
+    # units specifies the number of neurons (outputs) in the layer
+    units = 128
     weights, bias = get_weights_and_biases('dense1Weights.csv', 'dense1Biases.csv')
     output = []
     try:
         for i in range(units):
             product = 0
+            counter = 0
             for j in range(input.size):
                 product += input[j] * weights[j][i] 
             product += bias[i]
             product = relu_activation(product)
             output.append(product)
+        
     except TypeError as e:
         print("Type error: " + str(e))
     except IndexError as e:
@@ -58,18 +60,26 @@ def dense_1(input, units):
         print(str(e))
     else:
         output = np.array(output)
-        print("dense1 output shape", output.shape)
+        # print("dense 1 output", output)
+        # print("dense1 output shape", output.shape)
         return output
 
-def dense_2(input, units):
+def dense_2(input):
+    units = 8
     weights, bias = get_weights_and_biases('dense2Weights.csv', 'dense2Biases.csv')
     output = []
+  
     try:
         for i in range(units):
             product = 0
+            dense2counter = 0
             for j in range(input.size):
                 product += input[j] * weights[j][i] 
+                dense2counter += 1
             product += bias[i]
+            # if(product >= 0):
+            #     output.append(product)
+            # else:
             output.append(product)
     except TypeError as e:
         print("Type error: " + str(e))
@@ -78,25 +88,41 @@ def dense_2(input, units):
     except Exception as e:
         print(str(e))
     else:
-        output = np.array(output)
+        # print("tf softmax", tf.nn.softmax(output))
         # Convert output to propabilities that amount to one.
-        output = np.exp(output) / sum(np.exp(output)) 
-        print("dense2 output shape", output.shape)
+        # output = np.exp(output) / sum(np.exp(output)) 
+        output = getPercent(output)
         return output
+    
+def getPercent(input):
+    sum = 0
+    output = []
+    for x in input:
+        if x > 0:
+            sum += x
+    for y in input:
+        if y > 0:
+            output.append((y/sum)*100)
+        if y <= 0:
+            output.append(0)         
+    return output
+
 
 def main():
     labels = ["Down", "Go", "Left", "No", "Right", "Stop", "Up", "Yes"]
     predictions = []
 
     # Random input data for testing
-    input = np.random.rand(12544,)
+    input = np.random.uniform(size=12544)
     
-    dense1 = dense_1(input, 128)
+    dense1 = dense_1(input)
    
     if(dense1 is not None):
-        predictions = dense_2(dense1, len(labels))
+        predictions = dense_2(dense1)
         print("Predictions ", predictions)
 
 
 if __name__ == '__main__':
     main()
+    
+    
