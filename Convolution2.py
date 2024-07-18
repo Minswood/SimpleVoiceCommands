@@ -9,16 +9,11 @@ def ReLU(x):
     x = np.maximum(0.0, x)
     return x
 
-def convolution(image, kernel):
-    
-    #Flip kernel 180
-    # kernel = np.flipud(np.fliplr(kernel))
 
+def convolution(image, kernel):
     kernel_size = len(kernel)
     row = image.shape[0] - len(kernel) + 1
     col = image.shape[1] - len(kernel[0]) + 1
-  
-    
     Output = np.zeros(shape=(row, col))
 
     for i in range(row):
@@ -40,26 +35,10 @@ def addNextImage(base, addition):
             print('Images not same shape')
     except:
         print('Error in addNextImage')
-            
     return output
 
-# This function applies all saved filters on a single image, and saves their output. It calls the applySingleFilter function.
-def convReady(image,kernel):
-    # kernel = kernel[::-1,::-1]
-    convolved = cv2.filter2D(image, -1, kernel) # Convolve
- 
-    H = np.floor(np.array(kernel.shape)/2).astype(np.int32) # Find half dims of kernel
-    convolved = convolved[H[0]:-H[0],H[1]:-H[1]] # Cut away unwanted information    
- 
- 
-    return  convolved
 
 def Conv2():
-    InputCounter = 1
-    FilterCounter = 1
-    Channel = 1
-    #channelCounter = 1
-    Output = 1
     output_directory = f'Conv2_Output'
     #Saving the biases in an array for ease of use
     biases = []
@@ -68,76 +47,51 @@ def Conv2():
                 for row in csvReader:
                     biases.append(row)
  
- 
- 
- #Creating a directory for filter output if one does not exist
+    #Creating a directory for filter output if one does not exist
     if not os.path.exists(output_directory):
         os.makedirs(output_directory)
         
-    # The combination of while and try-except is used, so that the function goes through all filter files one at a time, and stops when done
-    while 1:
-        try:
+    # First for loop tells which filter is being used and second one tells which input image is being used.
+    for FilterCounter in range(64):
+        for InputCounter in range(32):
             #Get conv1 outputs
-            filterOutput = np.array([])
-            Input = f'./Conv1_Output/filterOutput{InputCounter}.csv' #Check the Output files location
-            
-           # Appending the rows in one filter to the empty filter array and then applying it on the image using the applySingleFilter function
-            with open(Input,newline='')as csvfile:
-                reader = csv.reader(csvfile, delimiter=',',quoting=csv.QUOTE_NONNUMERIC)
-                for row in reader:
-                    filterOutput = np.append(filterOutput, row)
-                filterOutput = filterOutput.reshape(30,30)
-            
-            filter = np.array([[]])
-            FilterFile = f'./filters_conv2/channel{InputCounter}_filter{FilterCounter}.csv'
-           # Appending the rows in one filter to the empty filter array and then applying it on the image using the applySingleFilter function
-            with open(FilterFile,newline='')as csvfile:
-                csvReader = csv.reader(csvfile, delimiter=',',quoting=csv.QUOTE_NONNUMERIC)
-                for row in csvReader:
-                    filter = np.append(filter,row)
-                filter = filter.reshape(3,3)
+                inputImage = np.array([])
+                Input = f'./Conv1_Output/filterOutput{InputCounter+1}.csv' #Check the Output files location
                 
-            new_image = convolution(filterOutput, filter)
-            # new_image = convReady(filterOutput, filter)
-            #Copying image shape to Oimage to add all the other filters to it
-            if InputCounter == 1:
-                Outputimage = new_image.copy()
-                Outputimage -= new_image
+            # Appending the rows in one filter to the empty filter array and then applying it on the image using the applySingleFilter function
+                with open(Input,newline='')as csvfile:
+                    reader = csv.reader(csvfile, delimiter=',',quoting=csv.QUOTE_NONNUMERIC)
+                    for row in reader:
+                        inputImage = np.append(inputImage, row)
+                    inputImage = inputImage.reshape(30,30)
                 
-            summedImage = addNextImage(Outputimage, new_image) 
-            Outputimage = summedImage
-             
-            InputCounter += 1
-                 
-            if(InputCounter == 33):
-
-                # Adding the corresponding bias to all values in the filtered image and then calling the ReLu function on it
-                for row in range(summedImage.shape[0]):
-                    for column in range(summedImage.shape[1]):
-                        summedImage[row,column] += biases[FilterCounter-1]
-                        
-                
-                #ReLU        
-                summedImage = ReLU(summedImage)
-                
-                FilterCounter += 1
-                
-                np.savetxt(f'{output_directory}/Conv2Output{Output}.csv',summedImage, delimiter=',')
-                Output +=1
-                summedImage = np.array([])
-
-                if(InputCounter == 33 and FilterCounter == 65):
-                    print("Exit filter loop at channel: "+ str(InputCounter) + " & filter: " + str(FilterCounter))
-                    break
+                filter = np.array([[]])
+                FilterFile = f'./filters_conv2/channel{InputCounter+1}_filter{FilterCounter+1}.csv'
+            # Appending the rows in one filter to the empty filter array and then applying it on the image using the applySingleFilter function
+                with open(FilterFile,newline='')as csvfile:
+                    csvReader = csv.reader(csvfile, delimiter=',',quoting=csv.QUOTE_NONNUMERIC)
+                    for row in csvReader:
+                        filter = np.append(filter,row)
+                    filter = filter.reshape(3,3)
+                    
+                new_image = convolution(inputImage, filter)
+                # new_image = convReady(filterOutput, filter)
+                #Copying image shape to Oimage to add all the other filters to it
+                if InputCounter == 0:
+                    Outputimage = new_image.copy()
+                    Outputimage -= new_image
+                summedImage = addNextImage(Outputimage, new_image) 
+                Outputimage = summedImage
+        # InputCounter loop ends here
         
-                InputCounter = 1
-                
-                if(FilterCounter == 65):
-                    FilterCounter = 1
-              
-                
-        except:
-            print("Exit filter loop at channel: "+ str(InputCounter) + " & filter: " + str(FilterCounter))
-            break
+        # Adding biases to the summed image
+        for row in range(summedImage.shape[0]):
+            for column in range(summedImage.shape[1]):
+                summedImage[row,column] += biases[FilterCounter]     
+        #ReLU        
+        summedImage = ReLU(summedImage)
+        # Saving the summedImage to a csv file and reseting the array.
+        np.savetxt(f'{output_directory}/Conv2Output{FilterCounter+1}.csv',summedImage, delimiter=',')
+        summedImage = np.array([])
 
-# Conv2()
+        

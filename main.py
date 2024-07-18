@@ -40,7 +40,6 @@ def main():
         for j in range(14):
             for k in range(64):
                 output_array[i][j][k] = image[k][i][j]
-
     image = Flatten.flatten(output_array)
 
     print("\nFIRST DENSE")

@@ -100,10 +100,10 @@ def getPercent(input):
     for x in input:
         if x > 0:
             sum += x
-    for x in input:
-        if x > 0:
-            output.append((x/sum)*100)
-        if x <= 0:
+    for y in input:
+        if y > 0:
+            output.append((y/sum)*100)
+        if y <= 0:
             output.append(0)         
     return output
 
@@ -124,3 +124,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+    
+    
