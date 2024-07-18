@@ -12,17 +12,17 @@ import Flatten
 import MaxPooling2D
 import spectrogram
 import numpy as np
-import csv
+import matplotlib.pyplot as plt
 
 def main():
     labels = ["Down", "Go", "Left", "No", "Right", "Stop", "Up", "Yes"]
     print("\nGETTING AUDIO")
-    # stream_params = PAStreamParams()
-    # image = get_recording(duration=1, stream_params=stream_params)
-    image, label = get_wav_file('mini_speech_commands_sample/*/*.wav', labels, 0)
+    stream_params = PAStreamParams()
+    image = get_recording(duration=1, stream_params=stream_params)
+    # image, label = get_wav_file('mini_speech_commands_sample/*/*.wav', labels, 0)
     print("\nTURNING AUDIO TO SPECTOGRAM AND RESIZE")
-    image = spectrogram.get_spectrogram(image)
-    image = resize(image, 32, 32)
+    spectrogram_image = spectrogram.get_spectrogram(image)
+    image = resize(spectrogram_image, 32, 32)
 
     print("\nNORMALIZATION")
     image = Normalize.NormalizeSingle(image)
@@ -52,8 +52,10 @@ def main():
     # print(f'\nCOMMAND WAS "{label}"\n')
     print("RESULT \n", result)
     print("MAX RESULT", np.max(result))
-
-
+    label_index = np.where(result==np.max(result))[0][0]
+    plt.bar(labels, result)
+    plt.title(labels[label_index])
+    plt.show()
 
 # def main():
 #     labels = ["Down", "Go", "Left", "No", "Right", "Stop", "Up", "Yes"]

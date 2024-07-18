@@ -80,10 +80,27 @@ def plot_spectrogram(spectrogram, ax):
   Y = range(height)
   ax.pcolormesh(X, Y, log_spec)
 
+def plot_audio(spectrogram, resized):
+    fig = plt.figure(figsize=(10, 8))
+    gs = gridspec.GridSpec(4, 4, wspace=0.2, hspace=0.6, height_ratios=[1,1,1,1])
+
+    ax0 = fig.add_subplot(gs[: 2, :])
+    plot_spectrogram(spectrogram, ax0)
+    ax0.set_title("Recorded spectrogram")
+    ax0.set_xlim([0, 16000])
+
+    ax1 = fig.add_subplot(gs[2 :, : -3])
+    plot_spectrogram(resized, ax1)
+    ax1.set_title("Recorded resized")
+   
+    plt.show()
+
 def main():
     labels = ["Down", "Go", "Left", "No", "Right", "Stop", "Up", "Yes"]
 
-    waveform, label = get_wav_file('mini_speech_commands_sample/*/*.wav', labels)
+    waveform, label = get_wav_file('mini_speech_commands_sample/*/*.wav', labels, 0)
+    print(label)
+  
     stream_params = PAStreamParams()
     rec_waveform = get_recording(duration=1, stream_params=stream_params)
 

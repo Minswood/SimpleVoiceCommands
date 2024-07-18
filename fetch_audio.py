@@ -54,8 +54,7 @@ def get_wav_file(path, labels, fileIndex):
     print(filename)
     
     label = labels[index]
-    # print(label)
-    # print("No")
+    print(label)
 
     audio = read_file(filename)
     audio_np_int16 = np.frombuffer(audio, dtype=np.int16)
