@@ -65,9 +65,14 @@ def get_wav_file(path, labels, fileIndex):
 
     return audio_normalised, label
 
-def get_recording(duration: int, stream_params: PAStreamParams):
+def get_recording(duration: int, stream_params: PAStreamParams, threshold: float):
+    '''Gets a recording from the microphone of the computer using Recorder class. 
+    Duration is the desired duration of the recording in seconds, stream_params is
+    a PAStreamParams object for creating a PyAudio stream and threshold determines 
+    the loudness of sound required to start recording.
+    '''
     recorder = Recorder(stream_params)
-    rec_audio_int16 = recorder.record(duration=duration)
+    rec_audio_int16 = recorder.record(duration=duration, threshold=threshold)
     rec_audio_float32 = rec_audio_int16.astype(np.float32)
     rec_audio_normalised = normalize_audio(rec_audio_float32)
     rec_audio_normalised = check_audio_length(rec_audio_normalised)
