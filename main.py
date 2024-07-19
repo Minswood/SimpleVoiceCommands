@@ -18,7 +18,7 @@ def main():
     labels = ["Down", "Go", "Left", "No", "Right", "Stop", "Up", "Yes"]
     print("\nGETTING AUDIO")
     stream_params = PAStreamParams()
-    image = get_recording(duration=1, stream_params=stream_params)
+    image = get_recording(duration=1, stream_params=stream_params, threshold=2)
     # image, label = get_wav_file('mini_speech_commands_sample/*/*.wav', labels, 0)
     print("\nTURNING AUDIO TO SPECTOGRAM AND RESIZE")
     spectrogram_image = spectrogram.get_spectrogram(image)
