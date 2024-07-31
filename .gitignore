@@ -11,3 +11,7 @@ Conv1_Output/
 Conv2_Output/
 Conv2D_Test/
 Conv2D_Test2/
+
+*.exe
+.vscode/*
+!.vscode/tasks.json
