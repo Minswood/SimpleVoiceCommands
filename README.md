@@ -27,13 +27,13 @@ There was some difficulty with getting the command recorded completely and to tr
 ## Results
 The accuracy of the predictions was tested with a confusion matrix of classifications of a test set containing seven of each command. The predictions were least accurate with commands that sound similar to another command, such as "Go" and "No", as could be expected, and overall the accuracy on this small sample indicated that the program is working as intended.
 
-![Confusion matrix was used for testing the accuracy of predictions.](images/confusion_matrix.png, "Confusion matrix was used for testing the accuracy of predictions.")
+![Confusion matrix was used for testing the accuracy of predictions.](images/confusion_matrix.png "Confusion matrix was used for testing the accuracy of predictions.")
 
 When using recorded audio from a microphone the accuracy of the predictions was lowered. This was possibly caused by poorer quality of the audio due to background noise and difficulty in getting the command fully recorded in the one second clip.
 
-![](images/down.png, "The command Down recorded from microphone.") ![](images/down_.png, "Down was predicted incorrectly.")
+![](images/down.png "The command Down recorded from microphone.") ![](images/down_.png "Down was predicted incorrectly.")
 
-![](images/right.png, "The command Right recorded from microphone.") ![](images/right_.png, "Right was predicted correctly.")
+![](images/right.png "The command Right recorded from microphone.") ![](images/right_.png "Right was predicted correctly.")
 
 As a conclusion a program for predicting voice commands from both audio files and recorded audio using neural networks and a pre-trained model was acchieved. In addition some of the functions were also implemented in C++, but not a whole program.
 
