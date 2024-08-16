@@ -29,9 +29,11 @@ The accuracy of the predictions was tested with a confusion matrix of classifica
 
 ![Confusion matrix was used for testing the accuracy of predictions.](images/confusion_matrix.png "Confusion matrix was used for testing the accuracy of predictions.")
 
-When using recorded audio from a microphone the accuracy of the predictions was lowered. This was possibly caused by poorer quality of the audio due to background noise and difficulty in getting the command fully recorded in the one second clip.
+When using recorded audio from a microphone the accuracy of the predictions was lowered. This was possibly caused by poorer quality of the audio due to background noise and difficulty in getting the command fully recorded in the one second clip. The two images below show the command Down predicted as Go.
 
 ![](images/down.png "The command Down recorded from microphone.") ![](images/down_.png "Down was predicted incorrectly.")
+
+The command Right predicted correctly:
 
 ![](images/right.png "The command Right recorded from microphone.") ![](images/right_.png "Right was predicted correctly.")
 
