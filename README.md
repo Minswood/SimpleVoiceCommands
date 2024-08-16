@@ -31,11 +31,11 @@ The accuracy of the predictions was tested with a confusion matrix of classifica
 
 When using recorded audio from a microphone the accuracy of the predictions was lowered. This was possibly caused by poorer quality of the audio due to background noise and difficulty in getting the command fully recorded in the one second clip. The two images below show the command Down predicted as Go.
 
-<img src="images/down.png"  height="250"> <img src="images/down_.png"  height="250"> 
+<img src="images/down.png"  height="300"> <img src="images/down_.png"  height="300"> 
 
 The command Right predicted correctly:
 
-<img src="images/right.png"  height="250"> <img src="images/right_.png"  height="250"> 
+<img src="images/right.png"  height="300"> <img src="images/right_.png"  height="300"> 
 
 As a conclusion a program for predicting voice commands from both audio files and recorded audio using neural networks and a pre-trained model was acchieved. In addition some of the functions were also implemented in C++, but not a whole program.
 
