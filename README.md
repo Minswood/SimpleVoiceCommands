@@ -2,7 +2,7 @@
 A neural network that recognizes simple voice commands. 
 This is a summer project for Oulu University of Applied Sciences and the members of the project group were Petteri Karjalainen, Henna Niemi, Kasperi Sänkiniemi and Riku Tuisku.
 
-The main goal of the project was to implement functions from scratch to recognize simple voice commands using Python and a pretrained model. The model was trained using this Tensorflow tutorial: (https://www.tensorflow.org/tutorials/audio/simple_audio), which uses a portion of a Speech Commands dataset containing one second clips of eight speech commands, "down", "go", "left", "no", "right", "stop", "up" and "yes", in WAV format. In the first stage of the project the voice commands were read from WAV files from the Speech Commands dataset and later the program was changed to use commands recorded with the computer microphone. There was an additional goal of implementing the same functions with C++ in the case that there would be time left after completing the main goal.
+The main goal of the project was to implement functions from scratch to create a neural network for recognizing simple voice commands using Python and a pretrained model. The model was trained using this Tensorflow tutorial: (https://www.tensorflow.org/tutorials/audio/simple_audio), which uses a portion of a Speech Commands dataset containing one second clips of eight speech commands, "down", "go", "left", "no", "right", "stop", "up" and "yes", in WAV format. In the first stage of the project the voice commands were read from WAV files from the Speech Commands dataset and later the program was changed to use commands recorded with the computer microphone. There was an additional goal of implementing the same functions with C++ in the case that there would be time left after completing the main goal.
 
 ## Converting the audio into an image
 The one second audio clip is converted into a spectrogram by performing Discrete Fourier Transform to the waveform in sequences of 256 values. The output of this operation is an image of size 129 x 124 pixels. The image is then resized to 32 x 32 pixels and the new pixel values are calculated using bilinear interpolation, in which the average of the four nearest pixels is calculated with more weight put on the pixels closest to the new pixel.
@@ -14,6 +14,7 @@ The one second audio clip is converted into a spectrogram by performing Discrete
 ## Convolutional layers
 
 ## Flatten and dense layers
+The Dense layers are fully connected layers, in which a weighted sum of each input is calculated for each output and a bias is added to it. The dense_1 function takes the output of the flatten function as input and produces 128 outputs using weights and biases from the trained model and also applies a ReLU (rectified linear unit) activation function, which turns negative values to zero. Dense_2 takes those outputs as input and outputs an array of 8 values, which correspond to the eight commands. The command that received the highest value, is the networks prediction for the command given.
 
 ## Recording the commands with a microphone
 In the second stage of the project the voice commands were recorded using the computer microphone to record a one second audio clip.
@@ -37,7 +38,7 @@ The command Right predicted correctly:
 
 ![](images/right.png "The command Right recorded from microphone.") ![](images/right_.png "Right was predicted correctly.")
 
-As a conclusion a program for predicting voice commands from both audio files and recorded audio using neural networks and a pre-trained model was acchieved. In addition some of the functions were also implemented in C++, but not a whole program.
+As a conclusion a program for predicting voice commands from both audio files and recorded audio using neural networks and a pre-trained model was acchieved. In addition some of the functions were also implemented in C++, but not a whole neural network.
 
 
 
