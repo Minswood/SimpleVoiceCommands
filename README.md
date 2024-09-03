@@ -43,7 +43,7 @@ The image is looped and sliced through to get specific chunks, which will be use
 After the loop is done, all zeros are gone from the base and replaced with maximum values.
 
 ## Flatten and dense layers
-The Dense layers are fully connected layers, in which a weighted sum of each input is calculated for each output and a bias is added to it. The dense_1 function takes the output of the flatten function as input and produces 128 outputs using weights and biases from the trained model and also applies a ReLU (rectified linear unit) activation function, which turns negative values to zero. Dense_2 takes those outputs as input and outputs an array of 8 values, which correspond to the eight commands. The command that received the highest value, is the networks prediction for the command given.
+The flatten function converts the 64 14x14 images produced by the Convolutional layers and maxPooling into a one dimensional array. The Dense layers are fully connected layers, in which a weighted sum of each input is calculated for each output and a bias is added to it. The dense_1 function takes the output of the flatten function as input and produces 128 outputs using weights and biases from the trained model and also applies a ReLU (rectified linear unit) activation function, which turns negative values to zero. Dense_2 takes those outputs as input and outputs an array of 8 values, which correspond to the eight commands. The command that received the highest value, is the networks prediction for the command given.
 
 ## Recording the commands with a microphone
 In the second stage of the project the voice commands were recorded using the computer microphone to record a one second audio clip.
@@ -67,7 +67,7 @@ The command Right predicted correctly:
 
 ![](images/right.png "The command Right recorded from microphone.") ![](images/right_.png "Right was predicted correctly.")
 
-As a conclusion a program for predicting voice commands from both audio files and recorded audio using neural networks and a pre-trained model was acchieved. In addition some of the functions were also implemented in C++, but not a whole neural network.
+As a conclusion a program for predicting voice commands from both audio files and recorded audio using neural networks and a pre-trained model was achieved. In addition some of the functions were also implemented in C++, but not a whole neural network.
 
 
 
