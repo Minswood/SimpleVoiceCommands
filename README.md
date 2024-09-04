@@ -9,8 +9,6 @@ The one second audio clip is converted into a spectrogram by performing Discrete
 
 ![Converting the waveform to a spectrogram and resizing.](images/wav_spec_resized_file1.png "The waveform was converted to a spectrogram image and resized.")
 
-## Normalization layer
-
 ## Convolutional layers
 The convolutional layer consists of 2 parts of convolution and maxpooling.
 The first convolution uses the filters from filters_conv1 folder and reads them one by one. It performs cross-correlation on a single image and after that, the bias values are added. Lastly ReLU is used to remove all negative values and then the image is saved as a csv file. This will loop 32 times until 32 outputs have been saved.
@@ -43,10 +41,10 @@ The image is looped and sliced through to get specific chunks, which will be use
 After the loop is done, all zeros are gone from the base and replaced with maximum values.
 
 ## Flatten and dense layers
-The flatten function converts the 64 14x14 images produced by the Convolutional layers and maxPooling into a one dimensional array. The Dense layers are fully connected layers, in which a weighted sum of each input is calculated for each output and a bias is added to it. The dense_1 function takes the output of the flatten function as input and produces 128 outputs using weights and biases from the trained model and also applies a ReLU (rectified linear unit) activation function, which turns negative values to zero. Dense_2 takes those outputs as input and outputs an array of 8 values, which correspond to the eight commands. The command that received the highest value, is the networks prediction for the command given.
+The flatten function converts the 64 14x14 images produced by the Convolutional layers and maxPooling into a one-dimensional array. The Dense layers are fully connected layers, in which a weighted sum of each input is calculated for each output and a bias is added to it. The dense_1 function takes the output of the flatten function as input and produces 128 outputs using weights and biases from the trained model and also applies a ReLU (rectified linear unit) activation function, which turns negative values to zero. Dense_2 takes those outputs as input and outputs an array of 8 values, which correspond to the eight commands. The command that received the highest value, is the networks prediction for the command given.
 
 ## Recording the commands with a microphone
-In the second stage of the project the voice commands were recorded using the computer microphone to record a one second audio clip.
+In the second stage of the project the voice commands were recorded using the PyAudio library to record a one second audio clip with the computer microphone.
 
 ![Comparing images from audio from file versus recorded.](images/file_vs_recording12.png "Comparison of an image from an audio file versus a recorded audio.")
 
